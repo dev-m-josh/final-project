@@ -25,3 +25,8 @@ export const updateHotel = async (id: number, data: Partial<typeof HotelsTable.$
 export const deleteHotel = async (id: number) => {
     await db.delete(HotelsTable).where(eq(HotelsTable.hotelId, id));
 };
+
+export const getHotelsByLocation = async (location: string) => {
+    const result = await db.select().from(HotelsTable).where(eq(HotelsTable.location, location));
+    return result[0] || null;
+};

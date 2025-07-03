@@ -71,3 +71,14 @@ export const updateHotel = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Failed to update hotel" });
     }
 };
+
+export const getHotelsByLocation = async (req: Request, res: Response) => {
+    try {
+        const location = req.params.location;
+        const hotels = await hotelService.getHotelsByLocation(location);
+        res.json(hotels);
+    } catch (error) {
+        console.error("Error fetching hotels by location:", error);
+        res.status(500).json({ message: "Failed to fetch hotels by location" });
+    }
+};

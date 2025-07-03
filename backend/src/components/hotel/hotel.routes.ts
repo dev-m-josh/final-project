@@ -9,6 +9,6 @@ hotelRouter.get("/:id", hotelController.getHotelById as any);
 hotelRouter.post("/", hotelController.createHotel);
 hotelRouter.delete("/:id", hotelController.deleteHotel as any);
 hotelRouter.put("/:id", hotelController.updateHotel as any);
-
+hotelRouter.get("/location", hotelController.getHotelsByLocation);
 
 export default hotelRouter;

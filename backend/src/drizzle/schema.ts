@@ -35,6 +35,7 @@ export const UsersTable = pgTable("users", {
 export const HotelsTable = pgTable("hotels", {
     hotelId: serial("hotel_id").primaryKey(),
     name: varchar("name", { length: 100 }).notNull(),
+    imageUrl: varchar("image_url", { length: 255 }),
     location: varchar("location", { length: 100 }).notNull(),
     address: text("address"),
     contactPhone: varchar("contact_phone", { length: 20 }).notNull(),

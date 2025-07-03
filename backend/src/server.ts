@@ -1,7 +1,8 @@
 import express from "express";
-import { connectToDB } from "./drizzle/db";
+import { connectToDB } from "../src/drizzle/db";
 import cors from "cors";
-import router from "./users/user.routes";
+import userRouter from "../src/components/user/user.routes";
+import hotelRouter from "./components/hotel/hotel.routes";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,7 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/users", router);
+app.use("/users", userRouter);
+app.use("/hotel", hotelRouter)
 
 // a testing route
 app.get("/", (req, res) => {

@@ -1,7 +1,7 @@
 // src/services/users.service.ts
 import { eq } from "drizzle-orm";
-import { db } from "../drizzle/db";
-import { UsersTable } from "../drizzle/schema";
+import { db } from "../../drizzle/db";
+import { UsersTable } from "../../drizzle/schema";
 
 export const getAllUsers = async () => {
     return await db.select().from(UsersTable);

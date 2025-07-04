@@ -27,6 +27,8 @@ export const UsersTable = pgTable("users", {
     contactPhone: varchar("contact_phone", { length: 20 }).notNull(),
     address: varchar("address", { length: 255 }).notNull(),
     isAdmin: boolean("is_admin").default(false),
+    verificationCode: varchar("verification_code", { length: 6 }),
+    isVerified: boolean("is_verified").default(false),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });

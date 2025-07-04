@@ -28,16 +28,6 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 };
 
-export const createUser = async (req: Request, res: Response) => {
-    try {
-        const user = await userService.createUser(req.body);
-        res.status(201).json(user);
-    } catch (error) {
-        console.error("Error creating user:", error);
-        res.status(500).json({ message: "Failed to create user" });
-    }
-};
-
 export const deleteUser = async (req: Request, res: Response) => {
     try {
         const userId = Number(req.params.id);

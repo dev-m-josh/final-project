@@ -12,11 +12,6 @@ export const getUserById = async (id: number) => {
     return result[0] || null;
 };
 
-export const createUser = async (userData: Omit<typeof UsersTable.$inferInsert, "userId">) => {
-    const result = await db.insert(UsersTable).values(userData).returning();
-    return result[0];
-};
-
 export const deleteUser = async (id: number) => {
     await db.delete(UsersTable).where(eq(UsersTable.userId, id));
 };

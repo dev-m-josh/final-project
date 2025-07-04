@@ -1,7 +1,7 @@
 import express from "express";
 import { connectToDB } from "./drizzle/db";
 import cors from "cors";
-import userRouter from "../src/components/user/user.routes";
+import userRouter from "./components/user/user.routes";
 import hotelRouter from "./components/hotel/hotel.routes";
 import roomsRouter from "./components/rooms/room.routes";
 import bookingRouter from "./components/bookings/booking.router";

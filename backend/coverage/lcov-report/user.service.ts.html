@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.7% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.84% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,43 +91,43 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/services/users.service.ts
 import { eq } from "drizzle-orm";
 import { db } from "../../drizzle/db";
 import { UsersTable } from "../../drizzle/schema";
 &nbsp;
-export const getAllUsers = <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
-<span class="cstat-no" title="statement not covered" >    return await db.select().from(UsersTable);</span>
+export const getAllUsers = async () =&gt; {
+    return await db.select().from(UsersTable);
 };
 &nbsp;
-export const getUserById = <span class="fstat-no" title="function not covered" >async </span>(id: number) =&gt; {
-    const result = <span class="cstat-no" title="statement not covered" >await db.select().from(UsersTable).where(eq(UsersTable.userId, id));</span>
-<span class="cstat-no" title="statement not covered" >    return result[0] || null;</span>
+export const getUserById = async (id: number) =&gt; {
+    const result = await db.select().from(UsersTable).where(eq(UsersTable.userId, id));
+    return result[0] || null;
 };
 &nbsp;
-export const deleteUser = <span class="fstat-no" title="function not covered" >async </span>(id: number) =&gt; {
-<span class="cstat-no" title="statement not covered" >    await db.delete(UsersTable).where(eq(UsersTable.userId, id));</span>
+export const deleteUser = async (id: number) =&gt; {
+    await db.delete(UsersTable).where(eq(UsersTable.userId, id));
 };
 &nbsp;
-export const updateUser = <span class="fstat-no" title="function not covered" >async </span>(id: number, data: Partial&lt;typeof UsersTable.$inferInsert&gt;) =&gt; {
-    const result = <span class="cstat-no" title="statement not covered" >await db.update(UsersTable).set(data).where(eq(UsersTable.userId, id)).returning();</span>
-<span class="cstat-no" title="statement not covered" >    return result[0] || null;</span>
+export const updateUser = async (id: number, data: Partial&lt;typeof UsersTable.$inferInsert&gt;) =&gt; {
+    const result = await db.update(UsersTable).set(data).where(eq(UsersTable.userId, id)).returning();
+    return result[0] || null;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -136,7 +136,7 @@ export const updateUser = <span class="fstat-no" title="function not covered" >a
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-05T21:10:16.492Z
+                at 2025-07-05T21:16:36.895Z
             </div>
         <script src="prettify.js"></script>
         <script>

@@ -15,6 +15,9 @@ export const getAllHotels = async (_req: Request, res: Response) => {
 export const getHotelById = async (req: Request, res: Response) => {
     try {
         const hotelId = Number(req.params.id);
+        if (isNaN(hotelId)) {
+            return res.status(400).json({ message: "Invalid hotel ID" });
+        }
         const hotel = await hotelService.getHotelById(hotelId);
 
         if (!hotel) {
@@ -41,6 +44,9 @@ export const createHotel = async (req: Request, res: Response) => {
 export const deleteHotel = async (req: Request, res: Response) => {
     try {
         const hotelId = Number(req.params.id);
+        if (isNaN(hotelId)) {
+            return res.status(400).json({ message: "Invalid hotel ID" });
+        }
         const hotel = await hotelService.getHotelById(hotelId);
 
         if (!hotel) {
@@ -58,6 +64,10 @@ export const deleteHotel = async (req: Request, res: Response) => {
 export const updateHotel = async (req: Request, res: Response) => {
     try {
         const hotelId = Number(req.params.id);
+
+        if (isNaN(hotelId)) {
+            return res.status(400).json({ message: "Invalid hotel ID" });
+        }
         const existingHotel = await hotelService.getHotelById(hotelId);
 
         if (!existingHotel) {

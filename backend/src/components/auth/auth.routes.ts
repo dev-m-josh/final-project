@@ -1,30 +1,10 @@
-import { Express } from "express";
+import express from "express";
 import * as AuthController from "./auth.controller";
 
-const auth = (app: Express) => {
-    app.route("/auth/register").post(async (req, res, next) => {
-        try {
-            await AuthController.register(req, res);
-        } catch (error) {
-            next(error);
-        }
-    });
+const router = express.Router();
 
-    app.route("/auth/login").post(async (req, res, next) => {
-        try {
-            await AuthController.login(req, res);
-        } catch (error) {
-            next(error);
-        }
-    });
+router.post("/register", AuthController.register);
+router.post("/login", AuthController.login as any);
+router.post("/verify", AuthController.verify);
 
-    app.route("/auth/verify").post(async (req, res, next) => {
-        try {
-            await AuthController.verify(req, res);
-        } catch (error) {
-            next(error);
-        }
-    });
-};
-
-export default auth;
+export default router;

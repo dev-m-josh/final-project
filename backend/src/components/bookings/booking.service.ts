@@ -30,3 +30,8 @@ export const getBookingsByUserId = async (userId: number) => {
     const result = await db.select().from(BookingsTable).where(eq(BookingsTable.userId, userId));
     return result;
 };
+
+export const getBookingsByStatus = async (status: true | false) => {
+    const result = await db.select().from(BookingsTable).where(eq(BookingsTable.isConfirmed, status));
+    return result;
+};

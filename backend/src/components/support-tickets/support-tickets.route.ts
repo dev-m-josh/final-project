@@ -8,7 +8,7 @@ const supportTicketsRouter = express.Router();
 supportTicketsRouter.get("/", ticketController.getAllTickets);
 supportTicketsRouter.get("/:id", ticketController.getTicketById as any);
 supportTicketsRouter.post("/", ticketController.createTicket);
-supportTicketsRouter.patch("/:id", ticketController.updateTicket as any);
+supportTicketsRouter.put("/:id", ticketController.updateTicket as any);
 supportTicketsRouter.delete("/:id", ticketController.deleteTicket as any);
 supportTicketsRouter.get("/user/:userId", ticketController.getTicketByUserId as any);
 supportTicketsRouter.get("/status/:status", ticketController.getTicketByStatus as any);

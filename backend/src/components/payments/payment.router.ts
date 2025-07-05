@@ -7,7 +7,7 @@ const paymentRouter = express.Router();
 paymentRouter.get("/", paymentsController.getAllPayments);
 paymentRouter.get("/:id", paymentsController.getPaymentById as any);
 paymentRouter.post("/", paymentsController.createPayment);
-paymentRouter.patch("/:id", paymentsController.updatePayment as any);
+paymentRouter.put("/:id", paymentsController.updatePayment as any);
 paymentRouter.delete("/:id", paymentsController.deletePayment as any);
 paymentRouter.get("/user/:userId", paymentsController.getPaymentsByUserId as any);
 

@@ -71,3 +71,40 @@ export const deleteBooking = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Failed to delete booking" });
     }
 };
+
+export const getBookingsByUserId = async (req: Request, res: Response) => {
+    try {
+        const userId = Number(req.params.id);
+
+        if (isNaN(userId)) {
+            return res.status(400).json({ message: "User has no bookings yet!" });
+        }
+
+        const bookings = await bookingService.getBookingsByUserId(userId);
+        res.json(bookings);
+    } catch (error) {
+        console.error("Error fetching bookings by user:", error);
+        res.status(500).json({ message: "Failed to fetch bookings by user" });
+    }
+};
+
+export const getBookingsByStatus = async (req: Request, res: Response) => {
+    try {
+        const statusParam = req.params.status;
+        let status: boolean;
+
+        if (statusParam === "confirmed") {
+            status = true;
+        } else if (statusParam === "pending") {
+            status = false;
+        } else {
+            return res.status(400).json({ message: "Invalid status" });
+        }
+
+        const bookings = await bookingService.getBookingsByStatus(status);
+        res.json(bookings);
+    } catch (error) {
+        console.error("Error fetching bookings by status:", error);
+        res.status(500).json({ message: "Failed to fetch bookings by status" });
+    }
+};

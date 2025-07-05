@@ -14,7 +14,6 @@ import {
 import { relations } from "drizzle-orm";
 
 // 🔸 Enums
-export const bookingStatusEnum = pgEnum("booking_status", ["Pending", "Confirmed"]);
 export const ticketStatusEnum = pgEnum("ticket_status", ["Open", "In Progress", "Resolved", "Closed"]);
 
 // 🔹 Users Table
@@ -73,7 +72,7 @@ export const BookingsTable = pgTable("bookings", {
     checkInDate: date("check_in_date").notNull(),
     checkOutDate: date("check_out_date").notNull(),
     totalAmount: decimal("total_amount", { precision: 10, scale: 2 }),
-    bookingStatus: bookingStatusEnum("booking_status").default("Pending"),
+    isConfirmed: boolean("is_confirmed").default(false),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });

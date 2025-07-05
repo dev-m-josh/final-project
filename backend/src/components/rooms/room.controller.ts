@@ -15,6 +15,9 @@ export const getAllRooms = async (_req: Request, res: Response) => {
 export const getRoomById = async (req: Request, res: Response) => {
     try {
         const roomId = Number(req.params.id);
+        if (isNaN(roomId)) {
+            return res.status(400).json({ message: "Invalid room ID" });
+        }
         const room = await roomService.getRoomById(roomId);
 
         if (!room) {
@@ -41,6 +44,9 @@ export const createRoom = async (req: Request, res: Response) => {
 export const deleteRoom = async (req: Request, res: Response) => {
     try {
         const roomId = Number(req.params.id);
+        if (isNaN(roomId)) {
+            return res.status(400).json({ message: "Invalid room ID" });
+        }
         const room = await roomService.getRoomById(roomId);
 
         if (!room) {
@@ -58,6 +64,9 @@ export const deleteRoom = async (req: Request, res: Response) => {
 export const updateRoom = async (req: Request, res: Response) => {
     try {
         const roomId = Number(req.params.id);
+        if (isNaN(roomId)) {
+            return res.status(400).json({ message: "Invalid room ID" });
+        }
         const existingRoom = await roomService.getRoomById(roomId);
 
         if (!existingRoom) {
@@ -74,11 +83,14 @@ export const updateRoom = async (req: Request, res: Response) => {
 
 export const getRoomsByHotelId = async (req: Request, res: Response) => {
     try {
-        const userId = Number(req.params.userId);
-        const rooms = await roomService.getRoomsByHotelId(userId);
+        const hotelId = Number(req.params.hotelId);
+        if (isNaN(hotelId)) {
+            return res.status(400).json({ message: "Invalid user ID" });
+        }
+        const rooms = await roomService.getRoomsByHotelId(hotelId);
         res.json(rooms);
     } catch (error) {
-        console.error("Error fetching rooms by userId:", error);
-        res.status(500).json({ message: "Failed to fetch rooms by user" });
+        console.error("Error fetching rooms by hotelId:", error);
+        res.status(500).json({ message: "Failed to fetch rooms by hotel" });
     }
 };

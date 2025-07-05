@@ -77,6 +77,7 @@ export const verifyUser = async (email: string, code: string) => {
         throw new Error("User already verified");
     }
 
+    console.log(user.verificationCode, code);
     if (user.verificationCode !== code) {
         throw new Error("Invalid verification code");
     }

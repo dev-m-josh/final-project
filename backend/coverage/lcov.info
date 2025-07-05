@@ -1,5 +1,5 @@
 TN:
-SF:src/components/rooms/room.service.ts
+SF:src/components/hotel/hotel.service.ts
 FN:6,(anonymous_0)
 FN:10,(anonymous_1)
 FN:15,(anonymous_2)
@@ -39,6 +39,8 @@ BRDA:12,0,0,2
 BRDA:12,0,1,1
 BRDA:22,1,0,1
 BRDA:22,1,1,0
-BRF:4
-BRH:3
+BRDA:31,2,0,1
+BRDA:31,2,1,0
+BRF:6
+BRH:4
 end_of_record

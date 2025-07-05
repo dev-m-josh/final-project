@@ -20,10 +20,6 @@ export const getHotelById = async (req: Request, res: Response) => {
         }
         const hotel = await hotelService.getHotelById(hotelId);
 
-        if (!hotel) {
-            return res.status(404).json({ message: "Hotel not found" });
-        }
-
         res.json(hotel);
     } catch (error) {
         console.error("Error fetching hotel:", error);

@@ -8,6 +8,11 @@ jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
 jest.mock("../../middleware/mailer");
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const mockInsert = jest.fn();
 const mockSelect = jest.fn();
 const mockUpdate = jest.fn();

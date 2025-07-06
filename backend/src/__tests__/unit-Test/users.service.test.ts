@@ -9,6 +9,11 @@ jest.mock("../../drizzle/db", () => ({
     },
 }));
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const mockUser = {
     userId: 1,
     firstname: "Jane",

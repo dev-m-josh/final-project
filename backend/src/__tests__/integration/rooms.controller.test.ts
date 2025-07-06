@@ -23,6 +23,11 @@ app.delete("/rooms/:id", deleteRoom as any);
 
 jest.mock("../../components/rooms/room.service");
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("Room Controller - Integration Tests", () => {
     const mockRoom = {
         roomId: 1,
@@ -117,4 +122,48 @@ describe("Room Controller - Integration Tests", () => {
         expect(res.status).toBe(500);
         expect(res.body).toEqual({ message: "Failed to fetch rooms" });
     });
+    test("GET /rooms should return 500 on service error", async () => {
+    (RoomService.getAllRooms as jest.Mock).mockRejectedValue(new Error("DB error"));
+    const res = await request(app).get("/rooms");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to fetch rooms" });
+    });
+
+    test("POST /rooms should return 500 on service error", async () => {
+        (RoomService.createRoom as jest.Mock).mockRejectedValue(new Error("DB error"));
+        const res = await request(app).post("/rooms").send({});
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to create room" });
+    });
+
+    test("PUT /rooms/:id should return 500 on service error", async () => {
+        (RoomService.getRoomById as jest.Mock).mockResolvedValue(mockRoom);
+        (RoomService.updateRoom as jest.Mock).mockRejectedValue(new Error("DB error"));
+        const res = await request(app).put("/rooms/1").send({ roomType: "Updated" });
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to update room" });
+    });
+
+    test("DELETE /rooms/:id should return 500 on service error", async () => {
+        (RoomService.getRoomById as jest.Mock).mockResolvedValue(mockRoom);
+        (RoomService.deleteRoom as jest.Mock).mockRejectedValue(new Error("DB error"));
+        const res = await request(app).delete("/rooms/1");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to delete room" });
+    });
+
+    test("GET /rooms/:id should return 500 on service error", async () => {
+        (RoomService.getRoomById as jest.Mock).mockRejectedValue(new Error("DB error"));
+        const res = await request(app).get("/rooms/1");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to fetch room" });
+    });
+
+    test("GET /rooms/hotel/:hotelId should return 500 on service error", async () => {
+        (RoomService.getRoomsByHotelId as jest.Mock).mockRejectedValue(new Error("DB error"));
+        const res = await request(app).get("/rooms/hotel/1");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to fetch rooms by hotel" });
+    });
+
 });

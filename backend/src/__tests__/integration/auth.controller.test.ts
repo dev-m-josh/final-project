@@ -13,7 +13,8 @@ app.post("/auth/verify", authController.verify);
 jest.mock("../../components/auth/auth.service");
 
 beforeAll(() => {
-    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "log").mockImplementation(() => { });
+    jest.spyOn(console, "error").mockImplementation(() => { });
 });
 
 jest.spyOn(console, "error").mockImplementation(() => {});

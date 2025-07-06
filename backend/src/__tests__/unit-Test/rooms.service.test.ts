@@ -11,6 +11,11 @@ jest.mock("../../drizzle/db", () => ({
     },
 }));
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const mockRoom = {
     roomId: 1,
     hotelId: 1,

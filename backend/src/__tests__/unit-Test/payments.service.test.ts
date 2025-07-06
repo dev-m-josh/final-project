@@ -13,6 +13,11 @@ jest.mock("../../drizzle/db", () => ({
     },
 }));
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const mockPayment = {
     paymentId: 1,
     bookingId: 2,

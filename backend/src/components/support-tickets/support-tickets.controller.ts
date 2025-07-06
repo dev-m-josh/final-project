@@ -1,4 +1,3 @@
-// src/controllers/support-tickets.controller.ts
 import { Request, Response } from "express";
 import * as ticketService from "./support-tickets.service";
 

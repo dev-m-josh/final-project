@@ -13,6 +13,11 @@ app.put("/users/:id", updateUser as any);
 
 jest.mock("../../components/user/user.service");
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("User Controller - Integration Tests", () => {
     const mockUser = {
         userId: 1,

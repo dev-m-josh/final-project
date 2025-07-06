@@ -16,6 +16,11 @@ app.get("/bookings/status/:status", BookingController.getBookingsByStatus as any
 
 jest.mock("../../components/bookings/booking.service");
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const mockBooking = {
     bookingId: 1,
     userId: 2,
@@ -132,5 +137,45 @@ describe("Booking Controller - Integration Tests", () => {
         const res = await request(app).get("/bookings/status/unknown");
         expect(res.status).toBe(400);
         expect(res.body).toEqual({ message: "Invalid status" });
+    });
+
+    test("GET /bookings should return 500 on error", async () => {
+        (BookingService.getAllBookings as jest.Mock).mockRejectedValue(new Error("DB error"));
+
+        const res = await request(app).get("/bookings");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to fetch bookings" });
+    });
+
+    test("GET /bookings should return 500 on error", async () => {
+        (BookingService.getBookingById as jest.Mock).mockRejectedValue(new Error("DB error"));
+
+        const res = await request(app).get("/bookings/unknown");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to fetch booking" });
+    });
+
+    test("POST /bookings should return 500 on error", async () => {
+        (BookingService.createBooking as jest.Mock).mockRejectedValue(new Error("DB error"));
+
+        const res = await request(app).post("/bookings");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to create booking" });
+    });
+
+    test("PUT /bookings should return 500 on error", async () => {
+        (BookingService.updateBooking as jest.Mock).mockRejectedValue(new Error("DB error"));
+
+        const res = await request(app).put("/bookings/unknown");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to update booking" });
+    });
+
+    test("DELETE /bookings should return 500 on error", async () => {
+        (BookingService.getAllBookings as jest.Mock).mockRejectedValue(new Error("DB error"));
+
+        const res = await request(app).delete("/bookings/unknown");
+        expect(res.status).toBe(500);
+        expect(res.body).toEqual({ message: "Failed to delete booking" });
     });
 });

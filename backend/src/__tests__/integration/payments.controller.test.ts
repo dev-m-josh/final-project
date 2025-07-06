@@ -21,6 +21,11 @@ app.delete("/payments/:id", deletePayment as any);
 
 jest.mock("../../components/payments/payment.service");
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("Payments Controller - Integration Tests", () => {
     const mockPayment = {
         paymentId: 1,

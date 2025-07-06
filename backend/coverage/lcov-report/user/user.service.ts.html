@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for hotel/hotel.service.ts</title>
+    <title>Code coverage report for user/user.service.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">hotel</a> hotel.service.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">user</a> user.service.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -85,17 +85,7 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -111,53 +101,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/services/hotel.service.ts
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/services/users.service.ts
 import { eq } from "drizzle-orm";
 import { db } from "../../drizzle/db";
-import { HotelsTable } from "../../drizzle/schema";
+import { UsersTable } from "../../drizzle/schema";
 &nbsp;
-export const getAllHotels = async () =&gt; {
-    return await db.select().from(HotelsTable);
+export const getAllUsers = async () =&gt; {
+    return await db.select().from(UsersTable);
 };
 &nbsp;
-export const getHotelById = async (id: number) =&gt; {
-    const result = await db.select().from(HotelsTable).where(eq(HotelsTable.hotelId, id));
+export const getUserById = async (id: number) =&gt; {
+    const result = await db.select().from(UsersTable).where(eq(UsersTable.userId, id));
     return result[0] || null;
 };
 &nbsp;
-export const createHotel = async (hotelData: Omit&lt;typeof HotelsTable.$inferInsert, "hotelId"&gt;) =&gt; {
-    const result = await db.insert(HotelsTable).values(hotelData).returning();
-    return result[0];
+export const deleteUser = async (id: number) =&gt; {
+    await db.delete(UsersTable).where(eq(UsersTable.userId, id));
 };
 &nbsp;
-export const updateHotel = async (id: number, data: Partial&lt;typeof HotelsTable.$inferInsert&gt;) =&gt; {
-    const result = await db.update(HotelsTable).set(data).where(eq(HotelsTable.hotelId, id)).returning();
-    return result[0] || <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
-};
-&nbsp;
-export const deleteHotel = async (id: number) =&gt; {
-    await db.delete(HotelsTable).where(eq(HotelsTable.hotelId, id));
-};
-&nbsp;
-export const getHotelsByLocation = async (location: string) =&gt; {
-    const result = await db.select().from(HotelsTable).where(eq(HotelsTable.location, location));
-    return result[0] || <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
+export const updateUser = async (id: number, data: Partial&lt;typeof UsersTable.$inferInsert&gt;) =&gt; {
+    const result = await db.update(UsersTable).set(data).where(eq(UsersTable.userId, id)).returning();
+    return result[0] || null;
 };
 &nbsp;</pre></td></tr></table></pre>
 

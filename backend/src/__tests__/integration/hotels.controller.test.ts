@@ -22,6 +22,11 @@ app.get("/hotels/location/:location", getHotelsByLocation as any);
 
 jest.mock("../../components/hotel/hotel.service");
 
+beforeAll(() => {
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 describe("Hotel Controller - Integration Tests", () => {
     const mockHotel = {
         hotelId: 1,

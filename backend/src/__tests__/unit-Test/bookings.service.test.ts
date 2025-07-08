@@ -1,6 +1,6 @@
 import * as BookingService from "../../components/bookings/booking.service";
 import { db } from "../../drizzle/db";
-import { BookingsTable } from "../../drizzle/schema";
+// import { BookingsTable } from "../../drizzle/schema";
 
 // Mock the db module
 jest.mock("../../drizzle/db", () => ({

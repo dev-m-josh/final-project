@@ -1,7 +1,5 @@
 import * as TicketService from "../../components/support-tickets/support-tickets.service";
 import { db } from "../../drizzle/db";
-import { SupportTicketsTable } from "../../drizzle/schema";
-import { eq } from "drizzle-orm";
 
 jest.mock("../../drizzle/db", () => ({
     db: {

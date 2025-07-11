@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, Hotel } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../features/authSlice";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,11 +10,21 @@ const Navbar = () => {
     const token = localStorage.getItem("myToken");
     const user = JSON.parse(localStorage.getItem("myUser") || "{}");
     const isAdmin = user.isAdmin;
-    console.log(token);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setIsLoggedIn(!!token);
-    }, [token]);
+    }, [token, user]);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        dispatch(logout());
+        setIsLoggedIn(false);
+        setIsMenuOpen(false);
+        navigate("/login");
+    };
 
     const getLinkClass = ({ isActive }: { isActive: boolean }) =>
         `${
@@ -64,7 +76,10 @@ const Navbar = () => {
                                 >
                                     Profile
                                 </NavLink>
-                                <button className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors">
+                                <button
+                                    onClick={handleLogout}
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                                >
                                     Logout
                                 </button>
                             </>

@@ -1,8 +1,10 @@
+// Import the BookingService methods to be tested
 import * as BookingService from "../../components/bookings/booking.service";
-import { db } from "../../drizzle/db";
-// import { BookingsTable } from "../../drizzle/schema";
 
-// Mock the db module
+// Import the real DB (but we'll mock it below)
+import { db } from "../../drizzle/db";
+
+// MOCK the database methods to isolate service logic
 jest.mock("../../drizzle/db", () => ({
     db: {
         select: jest.fn(),
@@ -12,11 +14,13 @@ jest.mock("../../drizzle/db", () => ({
     },
 }));
 
+// Suppress log/error output during tests to keep output clean
 beforeAll(() => {
     jest.spyOn(console, "log").mockImplementation(() => {});
     jest.spyOn(console, "error").mockImplementation(() => {});
 });
 
+// A fake booking used for return values in tests
 const mockBooking = {
     bookingId: 1,
     userId: 2,
@@ -29,12 +33,15 @@ const mockBooking = {
     updatedAt: new Date(),
 };
 
+// 📦 Main test suite
 describe("Booking Service", () => {
+    // Clear mocks before each test for isolation
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     test("getAllBookings should return all bookings", async () => {
+        // Mock db.select().from() to return an array with mockBooking
         (db.select as jest.Mock).mockReturnValueOnce({
             from: jest.fn().mockResolvedValue([mockBooking]),
         });
@@ -57,33 +64,38 @@ describe("Booking Service", () => {
     test("getBookingById should return null if not found", async () => {
         (db.select as jest.Mock).mockReturnValueOnce({
             from: jest.fn().mockReturnValue({
-                where: jest.fn().mockResolvedValue([]),
+                where: jest.fn().mockResolvedValue([]), // empty result
             }),
         });
 
         const result = await BookingService.getBookingById(999);
-        expect(result).toBeNull();
+        expect(result).toBeNull(); // Not found case
     });
 
     test("createBooking should insert and return the booking", async () => {
+        // Mock the insert → values → returning chain
         (db.insert as jest.Mock).mockReturnValueOnce({
             values: jest.fn().mockReturnValue({
                 returning: jest.fn().mockResolvedValue([mockBooking]),
             }),
         });
 
-        // Remove bookingId since it's omitted in the createBooking input type
+        // Exclude bookingId, simulate form input
         const { bookingId, ...bookingData } = mockBooking;
+
+        // Convert dates to ISO strings to simulate request payload
         const bookingDataWithStrings = {
             ...bookingData,
             checkInDate: bookingData.checkInDate.toISOString(),
             checkOutDate: bookingData.checkOutDate.toISOString(),
         };
+
         const result = await BookingService.createBooking(bookingDataWithStrings);
         expect(result).toEqual(mockBooking);
     });
 
     test("updateBooking should return updated booking", async () => {
+        // Mock the update → set → where → returning chain
         (db.update as jest.Mock).mockReturnValueOnce({
             set: jest.fn().mockReturnValue({
                 where: jest.fn().mockReturnValue({
@@ -100,7 +112,7 @@ describe("Booking Service", () => {
         (db.update as jest.Mock).mockReturnValueOnce({
             set: jest.fn().mockReturnValue({
                 where: jest.fn().mockReturnValue({
-                    returning: jest.fn().mockResolvedValue([]),
+                    returning: jest.fn().mockResolvedValue([]), // Not found
                 }),
             }),
         });
@@ -110,6 +122,7 @@ describe("Booking Service", () => {
     });
 
     test("deleteBooking should call db.delete().where()", async () => {
+        // Just verify it calls db.delete().where() — no return expected
         const whereSpy = jest.fn().mockResolvedValue(undefined);
         (db.delete as jest.Mock).mockReturnValueOnce({ where: whereSpy });
 

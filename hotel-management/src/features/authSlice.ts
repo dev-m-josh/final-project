@@ -4,12 +4,17 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 // Defining the shape of the user object stored in the state
 interface User {
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     email: string;
-    phoneNumber: string;
+    password: string;
+    contactPhone: string;
     address: string;
     token: string;
+    verificationCode: string;
+    isVerified: boolean;
+    createdAt: string;
+    updatedAt: string;
     isAdmin: boolean;
 }
 

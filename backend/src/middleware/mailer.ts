@@ -18,7 +18,7 @@ export const sendWelcomeEmail = async (to: string, name: string, verificationCod
             <p>Thanks for joining Josh Hotel. We're excited to have you on board.</p>
             <p>Best regards,<br>Josh Hotel Team</p>
             <p>Verification code: <h3>${verificationCode}</h3></p>
-            <p>Click <a href="http://localhost:3000/verify/${verificationCode}">here</a> to verify your email.</p>
+            <p>Click <a href="https://final-project-api-q0ob.onrender.com/auth/verify">here</a> to verify your email.</p>
         `,
     });
 };

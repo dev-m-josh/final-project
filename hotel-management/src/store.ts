@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 
 // Import individual reducers for different parts of the state
 import authReducer from "./features/authSlice"; // Handles authentication state
+import hotelsReducer from "./features/hotelsAuth";
 
 // Create and export the Redux store
 export const store = configureStore({
     // Define all slices (reducers) that make up the global Redux state
     reducer: {
         auth: authReducer, // auth slice handles login, register, user info, etc.
+        hotels: hotelsReducer,
     },
 });
 // Define types for the entire Redux state and the dispatch function

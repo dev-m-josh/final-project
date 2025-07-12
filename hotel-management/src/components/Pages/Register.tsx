@@ -81,8 +81,8 @@ const Register = () => {
             const token = response.data.token;
             dispatch(login({ ...user, token }));
 
-            console.log(localStorage.getItem("myUser"));
-            console.log(localStorage.getItem("myToken"));
+            // console.log(localStorage.getItem("myUser"));
+            // console.log(localStorage.getItem("myToken"));
 
             // Reset form
             setFirstName("");
@@ -136,17 +136,17 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-20">
-            <div className="max-w-150 w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
+        <div className="flex items-center justify-center w-full min-h-screen px-4 py-12 pt-20 bg-gray-50 sm:px-6 lg:px-8">
+            <div className="w-full p-8 space-y-8 bg-white rounded-lg shadow-md max-w-150">
                 {!showVerificationForm ? (
                     <>
                         <div>
-                            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign Up</h2>
+                            <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">Sign Up</h2>
                         </div>
                         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                            <div className="flex align-center justify-center gap-6">
+                            <div className="flex justify-center gap-6 align-center">
                                 <div className="w-full">
-                                    <label htmlFor="firstName" className="block text-bg font-medium text-gray-700">
+                                    <label htmlFor="firstName" className="block font-medium text-gray-700 text-bg">
                                         First Name
                                     </label>
                                     <input
@@ -158,11 +158,11 @@ const Register = () => {
                                             setFirstName(value.charAt(0).toUpperCase() + value.slice(1));
                                         }}
                                         required
-                                        className="mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                     />
                                 </div>
                                 <div className="w-full">
-                                    <label htmlFor="lastName" className="block text-bg font-medium text-gray-700">
+                                    <label htmlFor="lastName" className="block font-medium text-gray-700 text-bg">
                                         Last Name
                                     </label>
                                     <input
@@ -174,13 +174,13 @@ const Register = () => {
                                             setLastName(value.charAt(0).toUpperCase() + value.slice(1));
                                         }}
                                         required
-                                        className="mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label htmlFor="phoneNumber" className="block text-bg font-medium text-gray-700">
+                                <label htmlFor="phoneNumber" className="block font-medium text-gray-700 text-bg">
                                     Phone Number
                                 </label>
                                 <input
@@ -189,12 +189,12 @@ const Register = () => {
                                     value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}
                                     required
-                                    className="mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                    className="w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="email" className="block text-bg font-medium text-gray-700">
+                                <label htmlFor="email" className="block font-medium text-gray-700 text-bg">
                                     Email
                                 </label>
                                 <input
@@ -203,12 +203,12 @@ const Register = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                    className="w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="address" className="block text-bg font-medium text-gray-700">
+                                <label htmlFor="address" className="block font-medium text-gray-700 text-bg">
                                     Address
                                 </label>
                                 <input
@@ -217,12 +217,12 @@ const Register = () => {
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
                                     required
-                                    className="mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                    className="w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="password" className="block text-bg font-medium text-gray-700">
+                                <label htmlFor="password" className="block font-medium text-gray-700 text-bg">
                                     Password
                                 </label>
                                 <div className="relative mt-1">
@@ -232,24 +232,24 @@ const Register = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
-                                        className="pr-10 mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full px-3 py-2 pr-10 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                     />
                                     <button
                                         type="button"
                                         onClick={togglePassword}
-                                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                        className="absolute inset-y-0 right-0 flex items-center pr-3"
                                     >
                                         {showPassword ? (
-                                            <EyeOff className="h-4 w-4 text-black cursor-pointer sm:h-5 sm:w-5" />
+                                            <EyeOff className="w-4 h-4 text-black cursor-pointer sm:h-5 sm:w-5" />
                                         ) : (
-                                            <Eye className="h-4 w-4 text-black cursor-pointer sm:h-5 sm:w-5" />
+                                            <Eye className="w-4 h-4 text-black cursor-pointer sm:h-5 sm:w-5" />
                                         )}
                                     </button>
                                 </div>
                             </div>
 
                             <div>
-                                <label htmlFor="confirmPassword" className="block text-bg font-medium text-gray-700">
+                                <label htmlFor="confirmPassword" className="block font-medium text-gray-700 text-bg">
                                     Confirm Password
                                 </label>
                                 <div className="relative mt-1">
@@ -259,23 +259,23 @@ const Register = () => {
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         required
-                                        className="pr-10 mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full px-3 py-2 pr-10 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                     />
                                     <button
                                         type="button"
                                         onClick={toggleConfirmPassword}
-                                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                        className="absolute inset-y-0 right-0 flex items-center pr-3"
                                     >
                                         {showConfirmPassword ? (
-                                            <EyeOff className="h-4 w-4 text-black cursor-pointer sm:h-5 sm:w-5" />
+                                            <EyeOff className="w-4 h-4 text-black cursor-pointer sm:h-5 sm:w-5" />
                                         ) : (
-                                            <Eye className="h-4 w-4 text-black cursor-pointer sm:h-5 sm:w-5" />
+                                            <Eye className="w-4 h-4 text-black cursor-pointer sm:h-5 sm:w-5" />
                                         )}
                                     </button>
                                 </div>
                             </div>
 
-                            {errorMessage && <div className="text-red-600 text-sm text-center">{errorMessage}</div>}
+                            {errorMessage && <div className="text-sm text-center text-red-600">{errorMessage}</div>}
 
                             <div className="text-center">
                                 <p className="text-sm text-gray-600">
@@ -283,7 +283,7 @@ const Register = () => {
                                     <button
                                         type="button"
                                         onClick={() => navigate("/login")}
-                                        className="text-purple-600 hover:text-purple-700 underline cursor-pointer"
+                                        className="text-purple-600 underline cursor-pointer hover:text-purple-700"
                                     >
                                         Login
                                     </button>
@@ -293,7 +293,7 @@ const Register = () => {
                             <div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-purple-800 hover:bg-purple-700 cursor-pointer text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300 shadow-lg"
+                                    className="w-full px-4 py-2 font-semibold text-white transition-colors duration-300 bg-purple-800 rounded-md shadow-lg cursor-pointer hover:bg-purple-700"
                                 >
                                     Sign Up
                                 </button>
@@ -303,7 +303,7 @@ const Register = () => {
                 ) : (
                     <>
                         <div className="flex flex-col items-center justify-center min-h-screen">
-                            <h2 className="text-center text-3xl font-extrabold text-gray-900">
+                            <h2 className="text-3xl font-extrabold text-center text-gray-900">
                                 Enter Verification Code
                             </h2>
                             <form className="mt-8 space-y-6" onSubmit={handleVerify}>
@@ -318,14 +318,14 @@ const Register = () => {
                                         onChange={(e) => setCode(e.target.value)}
                                         placeholder="Enter your verification code..."
                                         required
-                                        className="mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                                     />
                                 </div>
-                                {errorMessage && <div className="text-red-600 text-sm text-center">{errorMessage}</div>}
+                                {errorMessage && <div className="text-sm text-center text-red-600">{errorMessage}</div>}
                                 <div>
                                     <button
                                         type="submit"
-                                        className="w-full bg-purple-800 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300 shadow-lg"
+                                        className="w-full px-4 py-2 font-semibold text-white transition-colors duration-300 bg-purple-800 rounded-md shadow-lg hover:bg-purple-700"
                                     >
                                         Verify
                                     </button>

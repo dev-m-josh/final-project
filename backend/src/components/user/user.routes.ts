@@ -7,8 +7,8 @@ const userRouter = express.Router();
 
 userRouter.get("/", usersController.getAllUsers);
 userRouter.get("/:id", usersController.getUserById as any);
-userRouter.delete("/:id", usersController.deleteUser as any);
-userRouter.put("/:id", checkUniqueEmail as any, usersController.updateUser as any);
+userRouter.delete("/delete/:id", usersController.deleteUser as any);
+userRouter.put("/update/:id", checkUniqueEmail as any, usersController.updateUser as any);
 
 
 export default userRouter;

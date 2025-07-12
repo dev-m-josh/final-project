@@ -119,6 +119,7 @@ const Register = () => {
             });
 
             if (response.status === 200) {
+                window.location.reload(); // reflect changes immediately
                 navigate("/");
             } else {
                 setErrorMessage(response.data.message || "Verification failed");

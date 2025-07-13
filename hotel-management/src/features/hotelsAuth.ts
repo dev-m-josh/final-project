@@ -64,7 +64,10 @@ export const addHotel = createAsyncThunk("hotels/addHotel", async (newHotel: New
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newHotel),
         });
-        if (!res.ok) throw new Error("Failed to add hotel");
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.message || "Failed to add hotel");
+        }
         return await res.json();
     } catch (err: unknown) {
         let message = "An unknown error occurred";

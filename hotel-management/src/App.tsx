@@ -8,6 +8,7 @@ import Login from "./components/Pages/Login";
 import Register from "./components/Pages/Register";
 import Profile from "./components/Pages/Profile";
 import Hotels from "./components/Pages/Hotels";
+import AdminDashboard from "./components/Pages/AdminDash";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/hotels" element={<Hotels />} />
+                <Route path="/dashboard" element={<AdminDashboard />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

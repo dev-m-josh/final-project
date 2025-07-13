@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchHotels, hotelDetails, type HotelType } from "../../features/hotelsAuth";
 import { MapPin, Star, Phone, Loader2, Calendar, X, Mail } from "lucide-react";
+import { Search } from "lucide-react";
 
 const Hotels = () => {
     const dispatch = useAppDispatch();
     const { hotels, loading, error, selectedHotel } = useAppSelector((state) => state.hotels);
     const [showPopup, setShowPopup] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         dispatch(fetchHotels());
@@ -90,16 +92,35 @@ const Hotels = () => {
         setShowPopup(false);
     };
 
+    // const filteredHotels = hotels.filter((hotel) =>
+    //     `${hotel.name} ${hotel.location} ${hotel.category}`
+    //      .toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+
+    const filteredHotels = hotels.filter((hotel) =>
+        hotel.name.toLowerCase().includes(searchTerm.toLowerCase()
+        ));
+
     return (
         <section id="hotels" className="relative min-h-screen py-20 bg-gray-50">
             <div className="w-full px-4 mx-auto sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className={`text-center mb-12 transition-all duration-300 ${showPopup ? "blur-sm" : ""}`}>
+                <div className={`text-center mb-8 transition-all duration-300 ${showPopup ? "blur-sm" : ""}`}>
                     <h1 className="mb-4 text-4xl font-bold text-gray-900">Find Your Perfect Hotel</h1>
                     <p className="max-w-3xl mx-auto text-xl text-gray-600">
                         Discover amazing hotels worldwide and book your perfect room with ease. Compare prices, read
                         reviews, and enjoy seamless booking experiences.
                     </p>
+                </div>
+                <div className="relative max-w-xl mx-auto mb-8">
+                    <Search className="absolute w-5 h-5 text-gray-400 left-3 top-3" />
+                    <input
+                        type="text"
+                        placeholder="Search hotels..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full py-3 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                 </div>
 
                 {/* Loading State */}
@@ -126,13 +147,13 @@ const Hotels = () => {
                 {/* Hotels Grid */}
                 {!loading && !error && (
                     <>
-                        {hotels.length > 0 ? (
+                        {filteredHotels.length > 0 ? (
                             <div
                                 className={`w-full grid md:grid-cols-2 lg:grid-cols-4 gap-8 transition-all duration-300 ${
                                     showPopup ? "blur-sm" : ""
                                 }`}
                             >
-                                {hotels.map((hotel) => (
+                                {filteredHotels.map((hotel) => (
                                     <HotelCard key={hotel.hotelId} hotel={hotel} />
                                 ))}
                             </div>

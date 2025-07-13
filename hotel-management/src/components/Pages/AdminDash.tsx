@@ -7,6 +7,7 @@ import {
     deleteHotel,
     type HotelType,
     type NewHotelType,
+    type UpdateHotelType
 } from "../../features/hotelsAuth";
 
 // Import components
@@ -24,7 +25,7 @@ const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState("hotels");
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [editingHotel, setEditingHotel] = useState<HotelType | null>(null);
+    const [editingHotel, setEditingHotel] = useState<UpdateHotelType | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [formData, setFormData] = useState<NewHotelType>({
         name: "",
@@ -34,8 +35,6 @@ const AdminDashboard = () => {
         contactPhone: "",
         category: "",
         rating: "",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
     });
 
     useEffect(() => {
@@ -63,10 +62,9 @@ const AdminDashboard = () => {
         if (!editingHotel) return;
 
         try {
-            const updatedHotel: HotelType = {
+            const updatedHotel: UpdateHotelType = {
                 ...editingHotel,
                 ...formData,
-                updatedAt: new Date().toISOString(),
             };
             await dispatch(updateHotel(updatedHotel)).unwrap();
             setShowEditModal(false);
@@ -97,8 +95,6 @@ const AdminDashboard = () => {
             contactPhone: hotel.contactPhone,
             category: hotel.category,
             rating: hotel.rating,
-            createdAt: hotel.createdAt,
-            updatedAt: hotel.updatedAt,
         });
         setShowEditModal(true);
     };
@@ -112,8 +108,6 @@ const AdminDashboard = () => {
             contactPhone: "",
             category: "",
             rating: "",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
         });
     };
 

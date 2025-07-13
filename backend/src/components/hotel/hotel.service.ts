@@ -13,14 +13,28 @@ export const getHotelById = async (id: number) => {
 };
 
 export const createHotel = async (hotelData: Omit<typeof HotelsTable.$inferInsert, "hotelId">) => {
+    try {
     const result = await db.insert(HotelsTable).values(hotelData).returning();
-    return result[0];
+        return result[0];
+    }
+    catch (error) {
+        console.error("Error creating hotel:", error);
+        throw error;
+    }
 };
 
 export const updateHotel = async (id: number, data: Partial<typeof HotelsTable.$inferInsert>) => {
-    const result = await db.update(HotelsTable).set(data).where(eq(HotelsTable.hotelId, id)).returning();
+    const { createdAt, updatedAt, ...safeData } = data;
+
+    const result = await db
+        .update(HotelsTable)
+        .set({ ...safeData, updatedAt: new Date() })
+        .where(eq(HotelsTable.hotelId, id))
+        .returning();
+
     return result[0] || null;
 };
+
 
 export const deleteHotel = async (id: number) => {
     await db.delete(HotelsTable).where(eq(HotelsTable.hotelId, id));

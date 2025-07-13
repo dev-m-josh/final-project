@@ -15,7 +15,8 @@ export type HotelType = {
     updatedAt: string;
 };
 
-export type NewHotelType = Omit<HotelType, "hotelId">;
+export type NewHotelType = Omit<HotelType, "hotelId" | "createdAt" | "updatedAt">;
+export type UpdateHotelType = Omit<HotelType, "createdAt" | "updatedAt">;
 
 interface HotelState {
     hotels: HotelType[];
@@ -35,31 +36,37 @@ const initialState: HotelState = {
 
 // Async Thunks
 export const fetchHotels = createAsyncThunk("hotels/fetchHotels", async () => {
-    const res = await fetch("https://final-project-api-q0ob.onrender.com/hotel");
+    const res = await fetch("https://final-project-api-q0ob.onrender.com/hotels");
     const data = await res.json();
     return data;
 });
 
 export const deleteHotel = createAsyncThunk("hotels/deleteHotel", async (hotelId: number) => {
-    await fetch(`https://final-project-api-q0ob.onrender.com/hotel/${hotelId}`, {
+    await fetch(`https://final-project-api-q0ob.onrender.com/hotels/delete/${hotelId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
     });
     return hotelId;
 });
 
-export const updateHotel = createAsyncThunk("hotels/updateHotel", async (updatedHotel: HotelType) => {
-    const res = await fetch(`https://final-project-api-q0ob.onrender.com/hotel/${updatedHotel.hotelId}`, {
+export const updateHotel = createAsyncThunk("hotels/updateHotel", async (updatedHotel: UpdateHotelType) => {
+    const res = await fetch(`https://final-project-api-q0ob.onrender.com/hotels/update/${updatedHotel.hotelId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedHotel),
     });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.message || "Failed to update hotel");
+        }
+
     return await res.json();
 });
 
 export const addHotel = createAsyncThunk("hotels/addHotel", async (newHotel: NewHotelType, thunkAPI) => {
     try {
-        const res = await fetch("https://final-project-api-q0ob.onrender.com/hotel", {
+        const res = await fetch("https://final-project-api-q0ob.onrender.com/hotels/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newHotel),
@@ -78,7 +85,7 @@ export const addHotel = createAsyncThunk("hotels/addHotel", async (newHotel: New
 
 export const hotelDetails = createAsyncThunk("hotels/hotelDetails", async (hotelId: number, thunkAPI) => {
     try {
-        const res = await fetch(`https://final-project-api-q0ob.onrender.com/hotel/${hotelId}`);
+        const res = await fetch(`https://final-project-api-q0ob.onrender.com/hotels/details/${hotelId}`);
         if (!res.ok) throw new Error("Failed to fetch hotel details");
         return await res.json();
     } catch (err: unknown) {
@@ -91,7 +98,7 @@ export const fetchHotelsByLocation = createAsyncThunk(
     "hotels/fetchHotelsByLocation",
     async (location: string, thunkAPI) => {
         try {
-            const res = await fetch(`https://final-project-api-q0ob.onrender.com/hotel/location/${location}`);
+            const res = await fetch(`https://final-project-api-q0ob.onrender.com/hotels/location/${location}`);
             if (!res.ok) throw new Error("Failed to fetch hotels by location");
             return await res.json();
         } catch (err: unknown) {

@@ -5,10 +5,10 @@ import * as hotelController from "./hotel.controller";
 const hotelRouter = express.Router();
 
 hotelRouter.get("/", hotelController.getAllHotels);
-hotelRouter.get("/:id", hotelController.getHotelById as any);
-hotelRouter.post("/", hotelController.createHotel);
-hotelRouter.delete("/:id", hotelController.deleteHotel as any);
-hotelRouter.put("/:id", hotelController.updateHotel as any);
+hotelRouter.get("/details/:id", hotelController.getHotelById as any);
+hotelRouter.post("/add", hotelController.createHotel);
+hotelRouter.delete("/delete/:id", hotelController.deleteHotel as any);
+hotelRouter.put("/update/:id", hotelController.updateHotel as any);
 hotelRouter.get("/location/:location", hotelController.getHotelsByLocation);
 
 export default hotelRouter;

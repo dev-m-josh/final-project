@@ -5,10 +5,10 @@ import * as bookingsController from "./booking.controller";
 const bookingRouter = express.Router();
 
 bookingRouter.get("/", bookingsController.getAllBookings);
-bookingRouter.get("/:id", bookingsController.getBookingById as any);
-bookingRouter.post("/", bookingsController.createBooking);
-bookingRouter.put("/:id", bookingsController.updateBooking as any);
-bookingRouter.delete("/:id", bookingsController.deleteBooking as any);
+bookingRouter.get("/details/:id", bookingsController.getBookingById as any);
+bookingRouter.post("/add", bookingsController.createBooking);
+bookingRouter.put("/update/:id", bookingsController.updateBooking as any);
+bookingRouter.delete("/delete/:id", bookingsController.deleteBooking as any);
 bookingRouter.get("/user/:userId", bookingsController.getBookingsByUserId as any);
 bookingRouter.get("/status/:status", bookingsController.getBookingsByStatus as any);
 

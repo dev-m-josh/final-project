@@ -20,3 +20,8 @@ export const updateUser = async (id: number, data: Partial<typeof UsersTable.$in
     const result = await db.update(UsersTable).set(data).where(eq(UsersTable.userId, id)).returning();
     return result[0] || null;
 };
+
+export const createUser = async (data: typeof UsersTable.$inferInsert) => {
+    const result = await db.insert(UsersTable).values(data).returning();
+    return result[0];
+};

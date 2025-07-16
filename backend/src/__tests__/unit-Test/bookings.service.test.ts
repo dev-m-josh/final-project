@@ -33,7 +33,7 @@ const mockBooking = {
     updatedAt: new Date(),
 };
 
-// 📦 Main test suite
+// Main test suite
 describe("Booking Service", () => {
     // Clear mocks before each test for isolation
     beforeEach(() => {

@@ -1,7 +1,5 @@
 import * as PaymentService from "../../components/payments/payment.service";
 import { db } from "../../drizzle/db";
-// import { PaymentsTable } from "../../drizzle/schema";
-// import { eq } from "drizzle-orm";
 
 // Mock db module
 jest.mock("../../drizzle/db", () => ({

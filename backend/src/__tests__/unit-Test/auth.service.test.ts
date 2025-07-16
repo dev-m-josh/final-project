@@ -1,7 +1,5 @@
-// Import the AuthService module which contains the logic for register, login, and verify
 import * as AuthService from "../../components/auth/auth.service";
 
-// Import bcrypt and jwt libraries, which we’ll mock in the tests
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 

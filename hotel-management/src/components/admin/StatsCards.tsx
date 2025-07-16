@@ -3,13 +3,14 @@ import { BarChart3 } from "lucide-react";
 
 interface StatsCardsProps {
     hotelCount: number;
+    customerCount?: number;
 }
 
-const StatsCards: React.FC<StatsCardsProps> = ({ hotelCount }) => {
+const StatsCards: React.FC<StatsCardsProps> = ({ hotelCount, customerCount = 0 }) => {
     const stats = [
         { label: "Total Hotels", value: hotelCount, color: "bg-blue-500" },
         { label: "Active Bookings", value: "1,234", color: "bg-green-500" },
-        { label: "Total Customers", value: "5,678", color: "bg-purple-500" },
+        { label: "Total Customers", value: customerCount, color: "bg-purple-500" },
         { label: "Revenue", value: "$123,456", color: "bg-orange-500" },
     ];
 

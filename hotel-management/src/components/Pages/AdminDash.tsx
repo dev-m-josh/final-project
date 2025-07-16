@@ -7,8 +7,16 @@ import {
     deleteHotel,
     type HotelType,
     type NewHotelType,
-    type UpdateHotelType
 } from "../../features/hotelsAuth";
+import {
+    fetchUsers,
+    addUser,
+    updateUser,
+    deleteUser,
+    userDetails,
+    type UserType,
+    type NewUserType,
+} from "../../features/usersSlice";
 
 // Import components
 import Sidebar from "../admin/Sidebar";
@@ -16,16 +24,22 @@ import Header from "../admin/Header";
 import StatsCards from "../admin/StatsCards";
 import HotelsTable from "../admin/HotelsTable";
 import HotelForm from "../admin/HotelForm";
+import CustomersTable from "../admin/CustomersTable";
+import CustomerForm from "../admin/CustomerForm";
+import CustomerDetails from "../admin/CustomerDetails";
 import Modal from "../admin/Modal";
 
 const AdminDashboard = () => {
     const dispatch = useAppDispatch();
     const { hotels, loading, error } = useAppSelector((state) => state.hotels);
+    const { users, loading: usersLoading, error: usersError, selectedUser } = useAppSelector((state) => state.users);
 
     const [activeTab, setActiveTab] = useState("hotels");
+
+    // Hotel states
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [editingHotel, setEditingHotel] = useState<UpdateHotelType | null>(null);
+    const [editingHotel, setEditingHotel] = useState<HotelType | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [formData, setFormData] = useState<NewHotelType>({
         name: "",
@@ -37,13 +51,39 @@ const AdminDashboard = () => {
         rating: "",
     });
 
+    // Customer states
+    const [showAddCustomerModal, setShowAddCustomerModal] = useState(false);
+    const [showEditCustomerModal, setShowEditCustomerModal] = useState(false);
+    const [showCustomerDetails, setShowCustomerDetails] = useState(false);
+    const [editingCustomer, setEditingCustomer] = useState<UserType | null>(null);
+    const [customerSearchTerm, setCustomerSearchTerm] = useState("");
+    const [customerFormData, setCustomerFormData] = useState<NewUserType>({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        contactPhone: "",
+        address: "",
+        isAdmin: "false",
+        verificationCode: "",
+        isVerified: "false",
+    });
+
     useEffect(() => {
         dispatch(fetchHotels());
+        dispatch(fetchUsers());
     }, [dispatch]);
 
+    // Hotel handlers
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    // Customer handlers
+    const handleCustomerInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setCustomerFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleAddHotel = async (e: React.FormEvent) => {
@@ -57,14 +97,26 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleAddCustomer = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await dispatch(addUser(customerFormData)).unwrap();
+            setShowAddCustomerModal(false);
+            resetCustomerForm();
+        } catch (error) {
+            console.error("Failed to add customer:", error);
+        }
+    };
+
     const handleEditHotel = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editingHotel) return;
 
         try {
-            const updatedHotel: UpdateHotelType = {
+            const updatedHotel: HotelType = {
                 ...editingHotel,
                 ...formData,
+                updatedAt: new Date().toISOString(),
             };
             await dispatch(updateHotel(updatedHotel)).unwrap();
             setShowEditModal(false);
@@ -75,12 +127,41 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleEditCustomer = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editingCustomer) return;
+
+        try {
+            const updatedCustomer: UserType = {
+                ...editingCustomer,
+                ...customerFormData,
+                updatedAt: new Date().toISOString(),
+            };
+            await dispatch(updateUser(updatedCustomer)).unwrap();
+            setShowEditCustomerModal(false);
+            setEditingCustomer(null);
+            resetCustomerForm();
+        } catch (error) {
+            console.error("Failed to update customer:", error);
+        }
+    };
+
     const handleDeleteHotel = async (hotelId: number) => {
         if (window.confirm("Are you sure you want to delete this hotel?")) {
             try {
                 await dispatch(deleteHotel(hotelId)).unwrap();
             } catch (error) {
                 console.error("Failed to delete hotel:", error);
+            }
+        }
+    };
+
+    const handleDeleteCustomer = async (userId: number) => {
+        if (window.confirm("Are you sure you want to delete this customer?")) {
+            try {
+                await dispatch(deleteUser(userId)).unwrap();
+            } catch (error) {
+                console.error("Failed to delete customer:", error);
             }
         }
     };
@@ -99,6 +180,27 @@ const AdminDashboard = () => {
         setShowEditModal(true);
     };
 
+    const openEditCustomerModal = (customer: UserType) => {
+        setEditingCustomer(customer);
+        setCustomerFormData({
+            firstname: customer.firstname,
+            lastname: customer.lastname,
+            email: customer.email,
+            password: customer.password,
+            contactPhone: customer.contactPhone,
+            address: customer.address,
+            isAdmin: customer.isAdmin,
+            verificationCode: customer.verificationCode,
+            isVerified: customer.isVerified,
+        });
+        setShowEditCustomerModal(true);
+    };
+
+    const handleViewCustomer = async (customer: UserType) => {
+        await dispatch(userDetails(customer.userId));
+        setShowCustomerDetails(true);
+    };
+
     const resetForm = () => {
         setFormData({
             name: "",
@@ -111,11 +213,32 @@ const AdminDashboard = () => {
         });
     };
 
+    const resetCustomerForm = () => {
+        setCustomerFormData({
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            contactPhone: "",
+            address: "",
+            isAdmin: "false",
+            verificationCode: "",
+            isVerified: "false",
+        });
+    };
+
     const handleCancel = () => {
         setShowAddModal(false);
         setShowEditModal(false);
         setEditingHotel(null);
         resetForm();
+    };
+
+    const handleCustomerCancel = () => {
+        setShowAddCustomerModal(false);
+        setShowEditCustomerModal(false);
+        setEditingCustomer(null);
+        resetCustomerForm();
     };
 
     return (
@@ -133,7 +256,7 @@ const AdminDashboard = () => {
                     {activeTab === "hotels" && (
                         <>
                             {/* Stats Cards */}
-                            <StatsCards hotelCount={hotels.length} />
+                            <StatsCards hotelCount={hotels.length} customerCount={users.length} />
 
                             {/* Hotels Management */}
                             <HotelsTable
@@ -158,10 +281,24 @@ const AdminDashboard = () => {
                     )}
 
                     {activeTab === "customers" && (
-                        <div className="p-6 bg-white rounded-lg shadow">
-                            <h2 className="mb-4 text-xl font-semibold text-gray-900">Customer Management</h2>
-                            <p className="text-gray-600">Customer management functionality coming soon...</p>
-                        </div>
+                        <>
+                            {/* Stats Cards */}
+                            <StatsCards hotelCount={hotels.length} customerCount={users.length} />
+
+                            {/* Customers Management */}
+                            <CustomersTable
+                                users={users}
+                                loading={usersLoading}
+                                error={usersError}
+                                searchTerm={customerSearchTerm}
+                                onSearchChange={setCustomerSearchTerm}
+                                onAddClick={() => setShowAddCustomerModal(true)}
+                                onEditClick={openEditCustomerModal}
+                                onDeleteClick={handleDeleteCustomer}
+                                onViewClick={handleViewCustomer}
+                                onRetry={() => dispatch(fetchUsers())}
+                            />
+                        </>
                     )}
 
                     {activeTab === "settings" && (
@@ -194,6 +331,33 @@ const AdminDashboard = () => {
                     title="Edit Hotel"
                 />
             </Modal>
+
+            {/* Add Customer Modal */}
+            <Modal isOpen={showAddCustomerModal} onClose={handleCustomerCancel}>
+                <CustomerForm
+                    formData={customerFormData}
+                    onInputChange={handleCustomerInputChange}
+                    onSubmit={handleAddCustomer}
+                    onCancel={handleCustomerCancel}
+                    title="Add New Customer"
+                />
+            </Modal>
+
+            {/* Edit Customer Modal */}
+            <Modal isOpen={showEditCustomerModal} onClose={handleCustomerCancel}>
+                <CustomerForm
+                    formData={customerFormData}
+                    onInputChange={handleCustomerInputChange}
+                    onSubmit={handleEditCustomer}
+                    onCancel={handleCustomerCancel}
+                    title="Edit Customer"
+                />
+            </Modal>
+
+            {/* Customer Details Modal */}
+            {showCustomerDetails && selectedUser && (
+                <CustomerDetails customer={selectedUser} onClose={() => setShowCustomerDetails(false)} />
+            )}
         </div>
     );
 };

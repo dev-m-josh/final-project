@@ -1,6 +1,7 @@
 // src/controllers/users.controller.ts
 import { Request, Response } from "express";
 import * as userService from "./user.service";
+import { createUser } from './user.service';
 
 export const getAllUsers = async (_req: Request, res: Response) => {
     try {
@@ -59,5 +60,15 @@ export const updateUser = async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Error updating user:", error);
         res.status(500).json({ message: "Failed to update user" });
+    }
+};
+
+export const createUserHandler = async (req: Request, res: Response) => {
+    try {
+        const newUser = await userService.createUser(req.body);
+        res.status(201).json(newUser);
+    } catch (error) {
+        console.error("Error creating user:", error);
+        res.status(500).json({ message: "Failed to create user" });
     }
 };

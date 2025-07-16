@@ -20,7 +20,7 @@ export const login = async (req: Request, res: Response) => {
 
     try {
         const { user, token } = await AuthService.loginUser(email, password);
-        res.json({ message: "Login successful", user, token });
+        res.status(200).json({ message: "Login successful", user, token });
     } catch (error: any) {
         console.error("Error logging in:", error);
         res.status(401).json({ error: error.message || "Login failed" });

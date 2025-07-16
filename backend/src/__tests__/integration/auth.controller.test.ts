@@ -1,4 +1,4 @@
-// ✅ Import Supertest to simulate HTTP requests for integration testing
+// Import Supertest to simulate HTTP requests for integration testing
 import request from "supertest";// Import Express to create a test server
 import express from "express";
 
@@ -28,7 +28,7 @@ beforeAll(() => {
 
 // Test suite for auth controller integration with service layer mocked
 describe("Auth Controller - Integration Tests", () => {
-    // 🔧 A fake user object that represents a typical registered user
+    // A fake user object that represents a typical registered user
     const mockUser = {
         customerID: 1,
         email: "muambukijoshua2@gmail.com",

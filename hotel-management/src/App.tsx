@@ -21,7 +21,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/hotels" element={<Hotels />} />
-                <Route path="/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

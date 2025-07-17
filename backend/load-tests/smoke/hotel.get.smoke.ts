@@ -7,7 +7,7 @@ export const options = {
 };
 
 export default function () {
-    const url = 'http://localhost:3000/bookings';
+    const url = 'http://localhost:3000/hotels';
     const params = {
         headers: {
             'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ import * as hotelService from "./hotel.service";
 export const getAllHotels = async (_req: Request, res: Response) => {
     try {
         const hotels = await hotelService.getAllHotels();
-        res.json(hotels);
+        res.status(200).json(hotels);
     } catch (error) {
         console.error("Error fetching hotels:", error);
         res.status(500).json({ message: "Failed to fetch hotels" });

@@ -1,20 +1,23 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
+const BASE_URL = 'http://localhost:3000';
+
 export const options = {
-    vus: 1,
-    iterations: 1,
+    stages: [
+        { duration: "30s", target: 40 }, // ramp-up to 40 users over 30 seconds
+        { duration: "40s", target: 50 }, // stay at 50 users for 40 seconds
+        { duration: "10s", target: 0 }, // ramp-down to 0 users
+    ],
+    ext: {
+        loadimpact: {
+            name: 'Hotels GET Load Test',
+        }
+    }
 };
 
 export default function () {
-    const url = 'http://localhost:3000/bookings';
-    const params = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-
-    const res = http.get(url, params);
+    const res = http.get(`${BASE_URL}/hotels`);
     check(res, {
         "status is 200": (r) => r.status === 200,
         "has data array": (r) => {

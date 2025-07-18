@@ -49,32 +49,57 @@ export const deleteBooking = createAsyncThunk("bookings/deleteBooking", async (b
     return bookingId;
 });
 
-export const updateBooking = createAsyncThunk("bookings/updateBooking", async (updatedBooking: UpdateBookingType) => {
-    const res = await fetch(`https://final-project-api-q0ob.onrender.com/bookings/update/${updatedBooking.bookingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedBooking),
-    });
+export const updateBooking = createAsyncThunk(
+    "bookings/updateBooking",
+    async (updatedBooking: UpdateBookingType, thunkAPI) => {
+        try {
+            const payload = {
+                ...updatedBooking,
+                checkInDate: new Date(updatedBooking.checkInDate),
+                checkOutDate: new Date(updatedBooking.checkOutDate),
+                updatedAt: new Date(),
+            };
 
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to update booking");
+            const res = await fetch(`http://localhost:3000/bookings/update/${updatedBooking.bookingId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.message || "Failed to update booking");
+            }
+
+            return await res.json();
+        } catch (err: unknown) {
+            let message = "An unknown error occurred";
+            if (err instanceof Error) message = err.message;
+            return thunkAPI.rejectWithValue(message);
+        }
     }
+);
 
-    return await res.json();
-});
 
 export const addBooking = createAsyncThunk("bookings/addBooking", async (newBooking: NewBookingType, thunkAPI) => {
     try {
-        const res = await fetch("https://final-project-api-q0ob.onrender.com/bookings/add", {
+        const payload = {
+            ...newBooking,
+            checkInDate: new Date(newBooking.checkInDate),
+            checkOutDate: new Date(newBooking.checkOutDate),
+        };
+
+        const res = await fetch("http://localhost:3000/bookings/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newBooking),
+            body: JSON.stringify(payload),
         });
+
         if (!res.ok) {
             const error = await res.json();
             throw new Error(error.message || "Failed to add booking");
         }
+
         return await res.json();
     } catch (err: unknown) {
         let message = "An unknown error occurred";
@@ -82,6 +107,7 @@ export const addBooking = createAsyncThunk("bookings/addBooking", async (newBook
         return thunkAPI.rejectWithValue(message);
     }
 });
+
 
 export const bookingDetails = createAsyncThunk("bookings/bookingDetails", async (bookingId: number, thunkAPI) => {
     try {

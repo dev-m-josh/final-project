@@ -5,12 +5,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export type BookingType = {
     bookingId: number;
     userId: number;
-    roomId: number;
+    roomId: string;
     checkInDate: string;
     checkOutDate: string;
     totalAmount: number;
     isConfirmed: boolean;
-    rating: string;
     createdAt: string;
     updatedAt: string;
 };

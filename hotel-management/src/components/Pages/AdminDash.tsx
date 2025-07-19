@@ -90,12 +90,11 @@ const AdminDashboard = () => {
   const [bookingSearchTerm, setBookingSearchTerm] = useState('');
   const [bookingFormData, setBookingFormData] = useState<NewBookingType>({
     userId: 0,
-    roomId: 0,
+    roomId: '',
     checkInDate: '',
     checkOutDate: '',
     totalAmount: 0,
     isConfirmed: false,
-    rating: ''
   });
 
   useEffect(() => {
@@ -304,7 +303,6 @@ const AdminDashboard = () => {
       checkOutDate: booking.checkOutDate,
       totalAmount: booking.totalAmount,
       isConfirmed: booking.isConfirmed,
-      rating: booking.rating
     });
     setShowEditBookingModal(true);
   };
@@ -343,12 +341,11 @@ const AdminDashboard = () => {
   const resetBookingForm = () => {
     setBookingFormData({
       userId: 0,
-      roomId: 0,
+      roomId: '',
       checkInDate: '',
       checkOutDate: '',
       totalAmount: 0,
       isConfirmed: false,
-      rating: ''
     });
   };
 
@@ -374,7 +371,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
@@ -449,8 +446,8 @@ const AdminDashboard = () => {
           )}
 
           {activeTab === 'settings' && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Settings</h2>
+            <div className="p-6 bg-white rounded-lg shadow">
+              <h2 className="mb-4 text-xl font-semibold text-gray-900">Settings</h2>
               <p className="text-gray-600">Settings functionality coming soon...</p>
             </div>
           )}

@@ -25,20 +25,6 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
         }).format(amount);
     };
 
-    // const renderStars = (rating: string) => {
-    //     const numRating = parseFloat(rating) || 0;
-    //     const stars = [];
-    //     for (let i = 1; i <= 5; i++) {
-    //         stars.push(
-    //             <Star
-    //                 key={i}
-    //                 className={`h-4 w-4 ${i <= numRating ? "text-yellow-400 fill-current" : "text-gray-300"}`}
-    //             />
-    //         );
-    //     }
-    //     return stars;
-    // };
-
     const calculateNights = () => {
         const checkIn = new Date(booking.checkInDate);
         const checkOut = new Date(booking.checkOutDate);
@@ -54,9 +40,9 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors duration-200"
+                    className="absolute z-10 p-2 transition-colors duration-200 bg-white rounded-full shadow-lg top-4 right-4 hover:bg-gray-100"
                 >
-                    <X className="h-5 w-5 text-gray-600" />
+                    <X className="w-5 h-5 text-gray-600" />
                 </button>
 
                 {/* Header */}
@@ -80,12 +66,12 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                             >
                                 {booking.isConfirmed ? (
                                     <>
-                                        <CheckCircle className="h-4 w-4 mr-1" />
+                                        <CheckCircle className="w-4 h-4 mr-1" />
                                         Confirmed
                                     </>
                                 ) : (
                                     <>
-                                        <XCircle className="h-4 w-4 mr-1" />
+                                        <XCircle className="w-4 h-4 mr-1" />
                                         Pending
                                     </>
                                 )}
@@ -96,12 +82,12 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
 
                 {/* Booking Details */}
                 <div className="p-8">
-                    <div className="grid md:grid-cols-2 gap-6 mb-8">
+                    <div className="grid gap-6 mb-8 md:grid-cols-2">
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Guest Information</h3>
+                            <h3 className="mb-4 text-lg font-semibold text-gray-900">Guest Information</h3>
                             <div className="space-y-3">
                                 <div className="flex items-center">
-                                    <User className="h-5 w-5 text-blue-600 mr-3" />
+                                    <User className="w-5 h-5 mr-3 text-blue-600" />
                                     <div>
                                         <p className="font-medium text-gray-900">Guest ID</p>
                                         <p className="text-gray-600">#{booking.userId}</p>
@@ -111,17 +97,17 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                         </div>
 
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Stay Details</h3>
+                            <h3 className="mb-4 text-lg font-semibold text-gray-900">Stay Details</h3>
                             <div className="space-y-3">
                                 <div className="flex items-center">
-                                    <MapPin className="h-5 w-5 text-blue-600 mr-3" />
+                                    <MapPin className="w-5 h-5 mr-3 text-blue-600" />
                                     <div>
                                         <p className="font-medium text-gray-900">Room</p>
                                         <p className="text-gray-600">Room #{booking.roomId}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
-                                    <Calendar className="h-5 w-5 text-blue-600 mr-3" />
+                                    <Calendar className="w-5 h-5 mr-3 text-blue-600" />
                                     <div>
                                         <p className="font-medium text-gray-900">Duration</p>
                                         <p className="text-gray-600">{calculateNights()} night(s)</p>
@@ -131,9 +117,9 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                         </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6 mb-8">
+                    <div className="grid gap-6 mb-8 md:grid-cols-2">
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Check-in & Check-out</h3>
+                            <h3 className="mb-4 text-lg font-semibold text-gray-900">Check-in & Check-out</h3>
                             <div className="space-y-3">
                                 <div className="flex items-start">
                                     <Calendar className="h-5 w-5 text-blue-600 mr-3 mt-0.5" />
@@ -153,10 +139,10 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                         </div>
 
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment & Rating</h3>
+                            <h3 className="mb-4 text-lg font-semibold text-gray-900">Payment & Rating</h3>
                             <div className="space-y-3">
                                 <div className="flex items-center">
-                                    <DollarSign className="h-5 w-5 text-green-600 mr-3" />
+                                    <DollarSign className="w-5 h-5 mr-3 text-green-600" />
                                     <div>
                                         <p className="font-medium text-gray-900">Total Amount</p>
                                         <p className="text-2xl font-bold text-green-600">
@@ -164,32 +150,22 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                                         </p>
                                     </div>
                                 </div>
-                                {/* <div className="flex items-center">
-                                    <Star className="h-5 w-5 text-yellow-600 mr-3" />
-                                    <div>
-                                        <p className="font-medium text-gray-900">Rating</p>
-                                        <div className="flex items-center">
-                                            {renderStars(booking.rating)}
-                                            <span className="ml-2 text-gray-600">({booking.rating}/5)</span>
-                                        </div>
-                                    </div>
-                                </div> */}
                             </div>
                         </div>
                     </div>
 
-                    <div className="border-t pt-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Booking Timeline</h3>
+                    <div className="pt-6 border-t">
+                        <h3 className="mb-4 text-lg font-semibold text-gray-900">Booking Timeline</h3>
                         <div className="space-y-3">
                             <div className="flex items-center">
-                                <Calendar className="h-5 w-5 text-blue-600 mr-3" />
+                                <Calendar className="w-5 h-5 mr-3 text-blue-600" />
                                 <div>
                                     <p className="font-medium text-gray-900">Booking Created</p>
                                     <p className="text-gray-600">{formatDate(booking.createdAt)}</p>
                                 </div>
                             </div>
                             <div className="flex items-center">
-                                <Calendar className="h-5 w-5 text-blue-600 mr-3" />
+                                <Calendar className="w-5 h-5 mr-3 text-blue-600" />
                                 <div>
                                     <p className="font-medium text-gray-900">Last Updated</p>
                                     <p className="text-gray-600">{formatDate(booking.updatedAt)}</p>
@@ -199,12 +175,12 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex space-x-4 mt-8 pt-6 border-t">
-                        <button className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center font-semibold">
-                            <Calendar className="h-5 w-5 mr-2" />
+                    <div className="flex pt-6 mt-8 space-x-4 border-t">
+                        <button className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
+                            <Calendar className="w-5 h-5 mr-2" />
                             Modify Booking
                         </button>
-                        <button className="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200 font-semibold">
+                        <button className="px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50">
                             Contact Guest
                         </button>
                     </div>

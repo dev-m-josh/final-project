@@ -9,6 +9,7 @@ import Register from "./components/Pages/Register";
 import Profile from "./components/Pages/Profile";
 import Hotels from "./components/Pages/Hotels";
 import AdminDashboard from "./components/Pages/AdminDash";
+import UserDashboard from "./components/Pages/UserDash";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/hotels" element={<Hotels />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

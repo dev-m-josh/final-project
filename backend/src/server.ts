@@ -8,6 +8,7 @@ import bookingRouter from "./components/bookings/booking.router";
 import auth from "./components/auth/auth.routes";
 import paymentRouter from "./components/payments/payment.router";
 import supportTicketsRouter from "./components/support-tickets/support-tickets.route";
+import darajaRouter from "./components/daraja/daraja.route";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.use("/rooms", roomsRouter);
 app.use("/bookings", bookingRouter);
 app.use("/payments", paymentRouter);
 app.use("/support-tickets", supportTicketsRouter)
+app.use("/api/daraja", darajaRouter);
 
 // a testing route
 app.get("/", (req, res) => {

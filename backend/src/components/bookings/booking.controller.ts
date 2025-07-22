@@ -74,7 +74,7 @@ export const deleteBooking = async (req: Request, res: Response) => {
 
 export const getBookingsByUserId = async (req: Request, res: Response) => {
     try {
-        const userId = Number(req.params.id);
+        const userId = Number(req.params.userId);
 
         if (isNaN(userId)) {
             return res.status(400).json({ message: "User has no bookings yet!" });
@@ -106,5 +106,16 @@ export const getBookingsByStatus = async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Error fetching bookings by status:", error);
         res.status(500).json({ message: "Failed to fetch bookings by status" });
+    }
+};
+
+export const setBookingStatus = async (req: Request, res: Response) => {
+    try {
+        const bookingId = Number(req.params.bookingId);
+        const updated = await bookingService.setBookingStatus(bookingId);
+        res.json(updated);
+    } catch (error) {
+        console.error("Error updating booking status:", error);
+        res.status(500).json({ message: "Failed to update booking status" });
     }
 };

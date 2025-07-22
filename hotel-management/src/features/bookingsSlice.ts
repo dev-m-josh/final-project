@@ -124,7 +124,7 @@ export const fetchBookingsByUserId = createAsyncThunk(
     "bookings/fetchBookingsByUserId",
     async (userId: string, thunkAPI) => {
         try {
-            const res = await fetch(`https://final-project-api-q0ob.onrender.com/bookings/user/${userId}`);
+            const res = await fetch(`http://localhost:3000/bookings/user/${userId}`);
             if (!res.ok) throw new Error("Failed to fetch bookings by user");
             return await res.json();
         } catch (err: unknown) {
@@ -149,6 +149,21 @@ export const fetchBookingsByStatus = createAsyncThunk(
         }
     }
 );
+
+export const setIsconfirmedTrue = createAsyncThunk(
+    "bookings/setIsconfirmedTrue",
+    async (bookingId: number, thunkAPI) => {
+        try {
+            const res = await fetch(`http://localhost:3000/bookings/confirm/${bookingId}`);
+            if (!res.ok) throw new Error("Failed to confirm booking");
+            return await res.json();
+        } catch (err: unknown) {
+            let message = "An unknown error occurred";
+            if (err instanceof Error) message = err.message;
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+)
 
 // Slice
 const bookingSlice = createSlice({
@@ -225,7 +240,16 @@ const bookingSlice = createSlice({
 
             .addCase(fetchBookingsByStatus.fulfilled, (state, action) => {
                 state.bookings = action.payload;
-            });
+            })
+
+            .addCase(setIsconfirmedTrue.fulfilled, (state, action) => {
+                const index = state.bookings.findIndex((b) => b.bookingId === action.payload.bookingId);
+                if (index !== -1) state.bookings[index] = action.payload;
+            })
+
+            .addCase(setIsconfirmedTrue.rejected, (state, action) => {
+                state.error = action.payload as string;
+            })
     },
 });
 

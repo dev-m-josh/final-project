@@ -49,8 +49,8 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                 <div
                     className={`p-8 rounded-t-2xl ${
                         booking.isConfirmed
-                           ? "bg-gradient-to-r from-green-600 to-emerald-600"
-                           : "bg-gradient-to-r from-orange-600 to-red-600"
+                            ? "bg-gradient-to-r from-green-600 to-emerald-600"
+                            : "bg-gradient-to-r from-orange-600 to-red-600"
                     }`}
                 >
                     <div className="flex items-center justify-between text-white">
@@ -176,10 +176,17 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
 
                     {/* Action Buttons */}
                     <div className="flex pt-6 mt-8 space-x-4 border-t">
-                        <button className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
-                            <Calendar className="w-5 h-5 mr-2" />
-                            Modify Booking
-                        </button>
+                        {booking.isConfirmed ? (
+                            <button className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
+                                <Calendar className="w-5 h-5 mr-2" />
+                                Modify Booking
+                            </button>
+                        ) : (
+                            <button className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
+                                <Calendar className="w-5 h-5 mr-2" />
+                                Make Payment
+                            </button>
+                        )}
                         <button className="px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50">
                             Contact Guest
                         </button>

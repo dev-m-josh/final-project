@@ -12,7 +12,29 @@ export const getPaymentById = async (id: number) => {
     return result[0] || null;
 };
 
-export const createPayment = async (paymentData: Omit<typeof PaymentsTable.$inferInsert, "paymentId">) => {
+export const createPayment = async (rawPayment: any) => {
+    const {
+        bookingId,
+        userId,
+        amount,
+        isPaid,
+        paymentMethod,
+        transactionId,
+        paymentDate,
+    } = rawPayment;
+
+    const paymentData = {
+        bookingId,
+        userId,
+        amount,
+        isPaid,
+        paymentMethod,
+        transactionId,
+        paymentDate: new Date(paymentDate),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    };
+
     const result = await db.insert(PaymentsTable).values(paymentData).returning();
     return result[0];
 };

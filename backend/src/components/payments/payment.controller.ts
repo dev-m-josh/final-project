@@ -32,8 +32,9 @@ export const getPaymentById = async (req: Request, res: Response) => {
 };
 
 export const createPayment = async (req: Request, res: Response) => {
+
     try {
-        const payment = await paymentService.createPayment(req.body);
+        const payment = await paymentService.createPayment(req.body.newPayment);
         res.status(201).json(payment);
     } catch (error) {
         console.error("Error creating payment:", error);
@@ -89,5 +90,20 @@ export const getPaymentsByUserId = async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Error fetching payments by userId:", error);
         res.status(500).json({ message: "Failed to fetch payments by user" });
+    }
+};
+
+export const handleDarajaCallback = async (req: Request, res: Response) => {
+    try {
+        const callbackData = req.body;
+
+        console.log("Received M-Pesa Callback:", JSON.stringify(callbackData, null, 2));
+
+        // TODO: Save callbackData to DB if needed
+
+        res.status(200).json({ message: "Callback received successfully" });
+    } catch (error) {
+        console.error("❌ Error handling callback:", error);
+        res.status(500).json({ error: "Internal server error" });
     }
 };

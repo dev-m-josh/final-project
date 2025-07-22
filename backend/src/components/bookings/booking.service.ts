@@ -35,3 +35,15 @@ export const getBookingsByStatus = async (status: true | false) => {
     const result = await db.select().from(BookingsTable).where(eq(BookingsTable.isConfirmed, status));
     return result;
 };
+
+export const setBookingStatus = async (bookingId: number) => {
+    const result = await db
+        .update(BookingsTable)
+        .set({
+            isConfirmed: true,
+            updatedAt: new Date()
+        })
+        .where(eq(BookingsTable.bookingId, bookingId))
+        .returning();
+    return result[0] || null;
+};

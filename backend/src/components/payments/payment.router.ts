@@ -10,5 +10,6 @@ paymentRouter.post("/add", paymentsController.createPayment);
 paymentRouter.put("/update/:id", paymentsController.updatePayment as any);
 paymentRouter.delete("/delete/:id", paymentsController.deletePayment as any);
 paymentRouter.get("/user/:userId", paymentsController.getPaymentsByUserId as any);
+paymentRouter.post("/callback", paymentsController.handleDarajaCallback);
 
 export default paymentRouter;

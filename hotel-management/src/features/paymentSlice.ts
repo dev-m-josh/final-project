@@ -6,7 +6,7 @@ export type PaymentType = {
     paymentId: number;
     bookingId: number;
     userId: number;
-    amount: number;
+    amount: string;
     isPaid: boolean;
     paymentMethod: string;
     transactionId: string;
@@ -81,8 +81,7 @@ export const updatePayment = createAsyncThunk(
 export const addPayment = createAsyncThunk("payments/addPayment", async (newPayment: NewPaymentType, thunkAPI) => {
     try {
         const payload = {
-            ...newPayment,
-            paymentDate: newPayment.paymentDate ? new Date(newPayment.paymentDate) : null,
+            newPayment
         };
 
         const res = await fetch("http://localhost:3000/payments/add", {

@@ -15,36 +15,45 @@ export const initiateStkPush = async ({
     paymentId: number;
 }) => {
     const normalizedPhone = normalizePhoneNumber(phoneNumber);
-
     const token = await getAccessToken();
     const { password, timestamp } = generatePassword();
 
-    const response = await axios.post(
-        `https://${
-            process.env.DARAJA_ENVIRONMENT === "sandbox" ? "sandbox" : "api"
-        }.safaricom.co.ke/mpesa/stkpush/v1/processrequest`,
-        {
-            BusinessShortCode: process.env.DARAJA_SHORTCODE,
-            Password: password,
-            Timestamp: timestamp,
-            TransactionType: "CustomerPayBillOnline",
-            Amount: amount,
-            PartyA: normalizedPhone,
-            PartyB: process.env.DARAJA_SHORTCODE,
-            PhoneNumber: normalizedPhone,
-            CallBackURL: `${process.env.DARAJA_CALLBACK_URL}?payment_id=${paymentId}`,
-            AccountReference: "EventBooking",
-            TransactionDesc: "Ticket Payment",
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
+    try {
+        const response = await axios.post(
+            `https://${
+                process.env.DARAJA_ENVIRONMENT === "sandbox" ? "sandbox" : "api"
+            }.safaricom.co.ke/mpesa/stkpush/v1/processrequest`,
+            {
+                BusinessShortCode: process.env.DARAJA_SHORTCODE,
+                Password: password,
+                Timestamp: timestamp,
+                TransactionType: "CustomerPayBillOnline",
+                Amount: amount,
+                PartyA: normalizedPhone,
+                PartyB: process.env.DARAJA_SHORTCODE,
+                PhoneNumber: normalizedPhone,
+                CallBackURL: `${process.env.DARAJA_CALLBACK_URL}?payment_id=${paymentId}`,
+                AccountReference: "EventBooking",
+                TransactionDesc: "Ticket Payment",
             },
-        }
-    );
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
-    return response.data;
+        return response.data;
+    } catch (error: any) {
+        console.error("STK Push Axios Error:", {
+            message: error.message,
+            status: error.response?.status,
+            data: error.response?.data,
+        });
+        throw new Error("STK push failed");
+    }
 };
+
 
 export const handleMpesaCallback = async (paymentId: number, callbackBody: any) => {
     const stkCallback = callbackBody.Body?.stkCallback;

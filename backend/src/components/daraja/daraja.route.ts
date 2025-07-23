@@ -13,4 +13,10 @@ darajaRouter.post("/payments/callback", (req: Request, res: Response) => {
   res.status(200).send("Callback received");
 });
 
+darajaRouter.post("/*", (req: Request, res: Response) => {
+    console.log("Received Daraja callback at:", req.originalUrl);
+    console.dir(req.body, { depth: null });
+    res.status(200).send("OK");
+});
+
 export default darajaRouter;

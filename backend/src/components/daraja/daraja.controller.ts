@@ -30,7 +30,7 @@ export const stkPushController: RequestHandler = async (req: Request, res: Respo
 
 export const mpesaCallbackController: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
-        const paymentIdParam = req.query.payment_id;
+        const paymentIdParam = req.query.paymentId;
         const paymentId = Number(paymentIdParam);
 
         if (isNaN(paymentId)) {

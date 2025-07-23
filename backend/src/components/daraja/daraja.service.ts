@@ -17,6 +17,9 @@ export const initiateStkPush = async ({
     const normalizedPhone = normalizePhoneNumber(phoneNumber);
     const token = await getAccessToken();
     const { password, timestamp } = generatePassword();
+    
+    console.log("Using base URL:", process.env.DARAJA_BASE_URL);
+
 
     try {
         const response = await axios.post(

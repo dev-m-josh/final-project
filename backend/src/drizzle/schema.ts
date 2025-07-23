@@ -89,7 +89,7 @@ export const PaymentsTable = pgTable("payments", {
     amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
     isPaid: boolean("is_paid").default(false),
     paymentMethod: varchar("payment_method", { length: 50 }).notNull(),
-    transactionId: text("transaction_id").notNull(),
+    transactionId: text("transaction_id").default(""),
     paymentDate: timestamp("payment_date", { withTimezone: true }).defaultNow(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),

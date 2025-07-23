@@ -1,79 +1,66 @@
 import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
+import {db} from "../../drizzle/db";
+import { PaymentsTable } from "../../drizzle/schema";
+import { eq } from "drizzle-orm";
+import { getAccessToken, generatePassword } from "../../utils/mpesa.helpers";
+import { normalizePhoneNumber } from '../../utils/normalizePhoneNumber';
 
-const {
-    DARAJA_CONSUMER_KEY,
-    DARAJA_CONSUMER_SECRET,
-    DARAJA_SHORTCODE,
-    DARAJA_PASSKEY,
-    DARAJA_BASE_URL,
-    DARAJA_CALLBACK_URL,
-} = process.env;
-
-// Generate Base64-encoded credentials
-const auth = Buffer.from(`${DARAJA_CONSUMER_KEY}:${DARAJA_CONSUMER_SECRET}`).toString("base64");
-
-// Get OAuth token
-export const getAccessToken = async () => {
-    const response = await axios.get(`${DARAJA_BASE_URL}/oauth/v1/generate?grant_type=client_credentials`, {
-        headers: {
-            Authorization: `Basic ${auth}`,
-        },
-    });
-    return response.data.access_token;
-};
-
-// Generate timestamp in format YYYYMMDDHHMMSS
-const generateTimestamp = () => {
-    const now = new Date();
-    return now
-        .toISOString()
-        .replace(/[-T:\.Z]/g, "")
-        .slice(0, 14);
-};
-
-// Generate password for STK push
-const generatePassword = (timestamp: string) => {
-    return Buffer.from(`${DARAJA_SHORTCODE}${DARAJA_PASSKEY}${timestamp}`).toString("base64");
-};
-
-// Initiate STK push
-export const initiateSTKPush = async ({
+export const initiateStkPush = async ({
     phoneNumber,
     amount,
-    accountReference = "HotelBooking",
-    transactionDesc = "Hotel Booking Payment",
+    paymentId,
 }: {
     phoneNumber: string;
     amount: number;
-    accountReference?: string;
-    transactionDesc?: string;
+    paymentId: number;
 }) => {
-    const accessToken = await getAccessToken();
-    const timestamp = generateTimestamp();
-    const password = generatePassword(timestamp);
-    console.log("Callback URL:", DARAJA_CALLBACK_URL);
+    const normalizedPhone = normalizePhoneNumber(phoneNumber);
 
-    const payload = {
-        BusinessShortCode: DARAJA_SHORTCODE,
-        Password: password,
-        Timestamp: timestamp,
-        TransactionType: "CustomerPayBillOnline",
-        Amount: amount,
-        PartyA: phoneNumber,
-        PartyB: DARAJA_SHORTCODE,
-        PhoneNumber: phoneNumber,
-        CallBackURL: DARAJA_CALLBACK_URL,
-        AccountReference: accountReference,
-        TransactionDesc: transactionDesc,
-    };
+    const token = await getAccessToken();
+    const { password, timestamp } = generatePassword();
 
-    const response = await axios.post(`${DARAJA_BASE_URL}/mpesa/stkpush/v1/processrequest`, payload, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
+    const response = await axios.post(
+        `https://${
+            process.env.DARAJA_ENVIRONMENT === "sandbox" ? "sandbox" : "api"
+        }.safaricom.co.ke/mpesa/stkpush/v1/processrequest`,
+        {
+            BusinessShortCode: process.env.DARAJA_SHORTCODE,
+            Password: password,
+            Timestamp: timestamp,
+            TransactionType: "CustomerPayBillOnline",
+            Amount: amount,
+            PartyA: normalizedPhone,
+            PartyB: process.env.DARAJA_SHORTCODE,
+            PhoneNumber: normalizedPhone,
+            CallBackURL: `${process.env.DARAJA_CALLBACK_URL}?payment_id=${paymentId}`,
+            AccountReference: "EventBooking",
+            TransactionDesc: "Ticket Payment",
         },
-    });
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
 
     return response.data;
+};
+
+export const handleMpesaCallback = async (paymentId: number, callbackBody: any) => {
+    const stkCallback = callbackBody.Body?.stkCallback;
+
+    if (!stkCallback || stkCallback.ResultCode !== 0) return;
+
+    const mpesaReceipt = stkCallback.CallbackMetadata?.Item.find(
+        (item: any) => item.Name === "MpesaReceiptNumber"
+    )?.Value;
+
+    await db
+        .update(PaymentsTable)
+        .set({
+            isPaid: true,
+            transactionId: mpesaReceipt,
+            updatedAt: new Date(),
+        })
+        .where(eq(PaymentsTable.transactionId, String(paymentId)));
 };

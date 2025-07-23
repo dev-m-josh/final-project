@@ -9,6 +9,9 @@ import auth from "./components/auth/auth.routes";
 import paymentRouter from "./components/payments/payment.router";
 import supportTicketsRouter from "./components/support-tickets/support-tickets.route";
 import darajaRouter from "./components/daraja/daraja.route";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;

@@ -2,18 +2,25 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 export const getAccessToken = async () => {
-    const { data } = await axios.get(
-        `https://${
-            process.env.MPESA_ENV === "sandbox" ? "sandbox" : "api"
-        }.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials`,
-        {
-            auth: {
-                username: process.env.DARAJA_CONSUMER_KEY!,
-                password: process.env.DARAJA_CONSUMER_SECRET!,
-            },
-        }
-    );
-    return data.access_token;
+    const consumerKey = process.env.DARAJA_CONSUMER_KEY!;
+    const consumerSecret = process.env.DARAJA_CONSUMER_SECRET!;
+    const base64 = Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64");
+
+    try {
+        const response = await axios.get(
+            `${process.env.DARAJA_BASE_URL}/oauth/v1/generate?grant_type=client_credentials`,
+            {
+                headers: {
+                    Authorization: `Basic ${base64}`,
+                },
+            }
+        );
+
+        return response.data.access_token;
+    } catch (error: any) {
+        console.error("Failed to get access token:", error.response?.data || error.message);
+        throw new Error("Failed to get Daraja access token");
+    }
 };
 
 export const generatePassword = () => {

@@ -51,7 +51,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ booking, onClose, onSuccess
           bookingId: booking.bookingId,
           userId: booking.userId,
           amount: booking.totalAmount,
-          isPaid: true,
           paymentMethod: paymentMethod,
           transactionId: generateTransactionId(),
       };

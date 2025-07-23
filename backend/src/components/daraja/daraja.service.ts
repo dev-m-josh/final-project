@@ -53,6 +53,7 @@ export const initiateSTKPush = async ({
     const accessToken = await getAccessToken();
     const timestamp = generateTimestamp();
     const password = generatePassword(timestamp);
+    console.log("Callback URL:", DARAJA_CALLBACK_URL);
 
     const payload = {
         BusinessShortCode: DARAJA_SHORTCODE,

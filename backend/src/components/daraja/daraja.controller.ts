@@ -20,7 +20,11 @@ export const stkPushController: RequestHandler = async (req: Request, res: Respo
         res.json({ success: true, data });
     } catch (error) {
         console.error("STK Push Error:", (error as Error).message);
-        res.status(500).json({ success: false, message: "STK push failed" });
+        res.status(500).json({
+            success: false,
+            message: "STK push failed",
+            error: (error as Error).message
+        });
     }
 };
 

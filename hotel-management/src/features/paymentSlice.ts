@@ -37,6 +37,7 @@ const initialState: PaymentState = {
 // Async Thunks
 export const fetchPayments = createAsyncThunk("payments/fetchPayments", async () => {
     const res = await fetch("https://final-project-api-q0ob.onrender.com/payments");
+    if (!res.ok) throw new Error("Failed to fetch payments");
     return await res.json();
 });
 

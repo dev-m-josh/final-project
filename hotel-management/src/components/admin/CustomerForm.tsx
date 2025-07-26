@@ -65,18 +65,6 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ formData, onInputChange, on
                 </div>
 
                 <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={onInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
-                </div>
-
-                <div>
                     <label className="block mb-1 text-sm font-medium text-gray-700">Admin Status</label>
                     <select
                         name="isAdmin"

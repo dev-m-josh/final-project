@@ -101,7 +101,7 @@ const TicketTable: React.FC<TicketTableProps> = ({ tickets, loading, onEdit, onD
                         />
                     </div>
 
-          <select
+                    <select
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
                         className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"

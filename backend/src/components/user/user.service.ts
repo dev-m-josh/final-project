@@ -17,7 +17,14 @@ export const deleteUser = async (id: number) => {
 };
 
 export const updateUser = async (id: number, data: Partial<typeof UsersTable.$inferInsert>) => {
-    const result = await db.update(UsersTable).set(data).where(eq(UsersTable.userId, id)).returning();
+    const result = await db
+        .update(UsersTable)
+        .set({
+            ...data,
+            updatedAt: new Date(data.updatedAt ?? Date.now()),
+        })
+        .where(eq(UsersTable.userId, id))
+        .returning();
     return result[0] || null;
 };
 

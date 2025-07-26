@@ -11,8 +11,8 @@ export type HotelType = {
     contactPhone: string;
     category: string;
     rating: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 export type NewHotelType = Omit<HotelType, "hotelId" | "createdAt" | "updatedAt">;

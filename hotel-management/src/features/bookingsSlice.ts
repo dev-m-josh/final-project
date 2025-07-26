@@ -10,8 +10,8 @@ export type BookingType = {
     checkOutDate: string;
     totalAmount: number;
     isConfirmed: boolean;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 export type NewBookingType = Omit<BookingType, "bookingId" | "createdAt" | "updatedAt">;

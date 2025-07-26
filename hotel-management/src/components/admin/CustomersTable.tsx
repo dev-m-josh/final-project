@@ -34,15 +34,13 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
             user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const formatDate = (dateString: string) => {
+    const formatDate = (dateString: Date) => {
         return new Date(dateString).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",
             day: "numeric",
         });
     };
-
-    console.log(filteredUsers)
 
     return (
         <div className="bg-white rounded-lg shadow">

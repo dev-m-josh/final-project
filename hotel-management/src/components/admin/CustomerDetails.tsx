@@ -8,7 +8,7 @@ interface CustomerDetailsProps {
 }
 
 const CustomerDetails: React.FC<CustomerDetailsProps> = ({ customer, onClose }) => {
-    const formatDate = (dateString: string) => {
+    const formatDate = (dateString: Date) => {
         return new Date(dateString).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import Rooms from "../admin/Rooms";
 import SupportTickets from "../admin/SupportTickets";
+import Payments from "../admin/Payments";
 
 import {
   fetchHotels,
@@ -171,7 +172,7 @@ const AdminDashboard = () => {
       const updatedHotel: HotelType = {
         ...editingHotel,
         ...formData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       await dispatch(updateHotel(updatedHotel)).unwrap();
       setShowEditModal(false);
@@ -190,7 +191,7 @@ const AdminDashboard = () => {
       const updatedCustomer: UserType = {
         ...editingCustomer,
         ...customerFormData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       await dispatch(updateUser(updatedCustomer)).unwrap();
       setShowEditCustomerModal(false);
@@ -209,7 +210,7 @@ const AdminDashboard = () => {
       const updatedBooking: BookingType = {
         ...editingBooking,
         ...bookingFormData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       await dispatch(updateBooking(updatedBooking)).unwrap();
       setShowEditBookingModal(false);
@@ -255,7 +256,7 @@ const AdminDashboard = () => {
       const updatedBooking: BookingType = {
         ...booking,
         isConfirmed: !booking.isConfirmed,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       await dispatch(updateBooking(updatedBooking)).unwrap();
     } catch (error) {
@@ -485,6 +486,20 @@ const AdminDashboard = () => {
 
                           {/* Rooms Management */}
                           <Rooms />
+                      </>
+                  )}
+
+                  {activeTab === "payments" && (
+                      <>
+                          {/* Stats Cards */}
+                          <StatsCards
+                              hotelCount={hotels.length}
+                              customerCount={users.length}
+                              bookingsCount={bookings.length}
+                          />
+
+                          {/* Payments Management */}
+                          <Payments />
                       </>
                   )}
 

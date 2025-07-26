@@ -15,10 +15,16 @@ interface TicketFormProps {
     loading?: boolean;
 }
 
-const user = localStorage.getItem("myUser");
-const userId = user && JSON.parse(user).userId;
-
 const TicketForm: React.FC<TicketFormProps> = ({ isOpen, onClose, onSubmit, ticket, loading }) => {
+    const [userId, setUserId] = useState(0);
+    useEffect(() => {
+        const user = localStorage.getItem("myUser");
+        const userId = user && JSON.parse(user).userId;
+        setUserId(userId);
+    }, [userId]);
+
+    console.log(userId);
+
     const [formData, setFormData] = useState({
         userId: userId,
         subject: "",
@@ -36,7 +42,7 @@ const TicketForm: React.FC<TicketFormProps> = ({ isOpen, onClose, onSubmit, tick
             });
         } else {
             setFormData({
-                userId: 1,
+                userId: userId,
                 subject: "",
                 description: "",
                 status: "Open",

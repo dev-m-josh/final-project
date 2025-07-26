@@ -55,7 +55,12 @@ export const updateUser = async (req: Request, res: Response) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const updatedUser = await userService.updateUser(userId, req.body);
+        const payload = {
+            ...req.body,
+            updatedAt: new Date()
+        }
+
+        const updatedUser = await userService.updateUser(userId, payload);
         res.json(updatedUser);
     } catch (error) {
         console.error("Error updating user:", error);

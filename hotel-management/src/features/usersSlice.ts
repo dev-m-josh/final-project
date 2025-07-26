@@ -13,8 +13,8 @@ export type UserType = {
     isAdmin: string;
     verificationCode: string;
     isVerified: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 export type NewUserType = Omit<UserType, "userId" | "createdAt" | "updatedAt">;
@@ -52,27 +52,41 @@ export const deleteUser = createAsyncThunk("users/deleteUser", async (userId: nu
     return userId;
 });
 
-export const updateUser = createAsyncThunk("users/updateUser", async (updatedUser: UpdateUserType) => {
-    const res = await fetch(`Server running on http://localhost:3000/users/update/${updatedUser.userId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedUser),
-    });
+export const updateUser = createAsyncThunk("users/updateUser", async (updatedUser: UpdateUserType, thunkAPI) => {
+    try {
+        const payload = {
+            ...updatedUser,
+            updatedAt: new Date(),
+        };
 
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to update user");
+        const res = await fetch(`http://localhost:3000/users/update/${updatedUser.userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.message || "Failed to update user");
+        }
+
+        return await res.json();
+    } catch (err: unknown) {
+        return thunkAPI.rejectWithValue(err instanceof Error ? err.message : "Unknown error");
     }
-
-    return await res.json();
 });
+
 
 export const addUser = createAsyncThunk("users/addUser", async (newUser: NewUserType, thunkAPI) => {
     try {
         const res = await fetch("http://localhost:3000/users/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newUser),
+            body: JSON.stringify({
+                ...newUser,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            }),
         });
 
         if (!res.ok) {

@@ -11,13 +11,14 @@ interface BookingFormProps {
 }
 
 const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSubmit, onCancel, title }) => {
+    console.log(FormData)
     return (
         <form onSubmit={onSubmit} className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+            <h3 className="mb-4 text-lg font-semibold text-gray-900">{title}</h3>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">User ID</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">User ID</label>
                     <input
                         type="number"
                         name="userId"
@@ -30,7 +31,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Room ID</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">Room ID</label>
                     <input
                         type="number"
                         name="roomId"
@@ -43,7 +44,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Check-in Date</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">Check-in Date</label>
                     <input
                         type="date"
                         name="checkInDate"
@@ -55,7 +56,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Check-out Date</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">Check-out Date</label>
                     <input
                         type="date"
                         name="checkOutDate"
@@ -67,7 +68,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Total Amount ($)</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">Total Amount ($)</label>
                     <input
                         type="number"
                         name="totalAmount"
@@ -81,7 +82,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                 </div>
 
                 {/* <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Confirmation Status</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">Confirmation Status</label>
                     <select
                         name="isConfirmed"
                         value={formData.isConfirmed.toString()}
@@ -96,7 +97,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                 </div> */}
 
                 {/* <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">Rating</label>
                     <select
                         name="rating"
                         value={formData.rating}
@@ -114,20 +115,20 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                 </div> */}
             </div>
 
-            <div className="flex space-x-3 pt-4">
+            <div className="flex pt-4 space-x-3">
                 <button
                     type="submit"
-                    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
                 >
-                    <Save className="h-4 w-4 mr-2" />
+                    <Save className="w-4 h-4 mr-2" />
                     Save Booking
                 </button>
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200"
+                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
                 >
-                    <X className="h-4 w-4 mr-2" />
+                    <X className="w-4 h-4 mr-2" />
                     Cancel
                 </button>
             </div>

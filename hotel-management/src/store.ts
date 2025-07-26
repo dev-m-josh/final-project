@@ -6,6 +6,8 @@ import hotelsReducer from "./features/hotelsAuth";
 import usersReducer from "./features/usersSlice";
 import bookingsReducer from "./features/bookingsSlice";
 import paymentReducer from "./features/paymentSlice";
+import roomsReducer from "./features/roomsSlice";
+import supportTicketReducer from "./features/supportTickets";
 
 // Create and export the Redux store
 export const store = configureStore({
@@ -15,7 +17,9 @@ export const store = configureStore({
         hotels: hotelsReducer,
         users: usersReducer,
         bookings: bookingsReducer,
-        payments: paymentReducer
+        payments: paymentReducer,
+        rooms: roomsReducer,
+        supportTickets: supportTicketReducer,
     },
 });
 // Define types for the entire Redux state and the dispatch function

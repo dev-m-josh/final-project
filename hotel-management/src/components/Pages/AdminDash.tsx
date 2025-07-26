@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import Rooms from "../admin/Rooms";
+import SupportTickets from "../admin/SupportTickets";
+
 import {
   fetchHotels,
   addHotel,
@@ -101,6 +104,7 @@ const AdminDashboard = () => {
     dispatch(fetchHotels());
     dispatch(fetchUsers());
     dispatch(fetchBookings());
+
   }, [dispatch]);
 
   // Hotel handlers
@@ -371,171 +375,196 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="flex min-h-screen bg-gray-100">
+          {/* Sidebar */}
+          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+          {/* Main Content */}
+          <div className="flex-1 ml-64">
+              {/* Header */}
+              <Header activeTab={activeTab} />
 
-      {/* Main Content */}
-      <div className="flex-1 ml-64">
-        {/* Header */}
-        <Header activeTab={activeTab} />
+              {/* Content */}
+              <main className="p-6">
+                  {activeTab === "hotels" && (
+                      <>
+                          {/* Stats Cards */}
+                          <StatsCards
+                              hotelCount={hotels.length}
+                              customerCount={users.length}
+                              bookingsCount={bookings.length}
+                          />
 
-        {/* Content */}
-        <main className="p-6">
-          {activeTab === 'hotels' && (
-            <>
-              {/* Stats Cards */}
-              <StatsCards hotelCount={hotels.length} customerCount={users.length} bookingsCount={bookings.length} />
+                          {/* Hotels Management */}
+                          <HotelsTable
+                              hotels={hotels}
+                              loading={loading}
+                              error={error}
+                              searchTerm={searchTerm}
+                              onSearchChange={setSearchTerm}
+                              onAddClick={() => setShowAddModal(true)}
+                              onEditClick={openEditModal}
+                              onDeleteClick={handleDeleteHotel}
+                              onRetry={() => dispatch(fetchHotels())}
+                          />
+                      </>
+                  )}
 
-              {/* Hotels Management */}
-              <HotelsTable
-                hotels={hotels}
-                loading={loading}
-                error={error}
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                onAddClick={() => setShowAddModal(true)}
-                onEditClick={openEditModal}
-                onDeleteClick={handleDeleteHotel}
-                onRetry={() => dispatch(fetchHotels())}
+                  {activeTab === "bookings" && (
+                      <>
+                          {/* Stats Cards */}
+                          <StatsCards
+                              hotelCount={hotels.length}
+                              customerCount={users.length}
+                              bookingsCount={bookings.length}
+                          />
+
+                          {/* Bookings Management */}
+                          <BookingsTable
+                              bookings={bookings}
+                              loading={bookingsLoading}
+                              error={bookingsError}
+                              searchTerm={bookingSearchTerm}
+                              onSearchChange={setBookingSearchTerm}
+                              onAddClick={() => setShowAddBookingModal(true)}
+                              onEditClick={openEditBookingModal}
+                              onDeleteClick={handleDeleteBooking}
+                              onViewClick={handleViewBooking}
+                              onToggleStatus={handleToggleBookingStatus}
+                              onRetry={() => dispatch(fetchBookings())}
+                          />
+                      </>
+                  )}
+
+                  {activeTab === "customers" && (
+                      <>
+                          {/* Stats Cards */}
+                          <StatsCards
+                              hotelCount={hotels.length}
+                              customerCount={users.length}
+                              bookingsCount={bookings.length}
+                          />
+
+                          {/* Customers Management */}
+                          <CustomersTable
+                              users={users}
+                              loading={usersLoading}
+                              error={usersError}
+                              searchTerm={customerSearchTerm}
+                              onSearchChange={setCustomerSearchTerm}
+                              onAddClick={() => setShowAddCustomerModal(true)}
+                              onEditClick={openEditCustomerModal}
+                              onDeleteClick={handleDeleteCustomer}
+                              onViewClick={handleViewCustomer}
+                              onRetry={() => dispatch(fetchUsers())}
+                          />
+                      </>
+                  )}
+
+                  {activeTab === "tickets" && (
+                      <>
+                          {/* Stats Cards */}
+                          <StatsCards
+                              hotelCount={hotels.length}
+                              customerCount={users.length}
+                              bookingsCount={bookings.length}
+                          />
+
+                          {/* Tickets Management */}
+                          <SupportTickets />
+                      </>
+                  )}
+
+                  {activeTab === "rooms" && (
+                      <>
+                          {/* Stats Cards */}
+                          <StatsCards
+                              hotelCount={hotels.length}
+                              customerCount={users.length}
+                              bookingsCount={bookings.length}
+                          />
+
+                          {/* Rooms Management */}
+                          <Rooms />
+                      </>
+                  )}
+
+                  {activeTab === "settings" && (
+                      <div className="p-6 bg-white rounded-lg shadow">
+                          <h2 className="mb-4 text-xl font-semibold text-gray-900">Settings</h2>
+                          <p className="text-gray-600">Settings functionality coming soon...</p>
+                      </div>
+                  )}
+              </main>
+          </div>
+          {/* Add Hotel Modal */}
+          <Modal isOpen={showAddModal} onClose={handleCancel}>
+              <HotelForm
+                  formData={formData}
+                  onInputChange={handleInputChange}
+                  onSubmit={handleAddHotel}
+                  onCancel={handleCancel}
+                  title="Add New Hotel"
               />
-            </>
-          )}
-
-          {activeTab === 'bookings' && (
-            <>
-              {/* Stats Cards */}
-              <StatsCards hotelCount={hotels.length} customerCount={users.length} bookingsCount={bookings.length} />
-
-              {/* Bookings Management */}
-              <BookingsTable
-                bookings={bookings}
-                loading={bookingsLoading}
-                error={bookingsError}
-                searchTerm={bookingSearchTerm}
-                onSearchChange={setBookingSearchTerm}
-                onAddClick={() => setShowAddBookingModal(true)}
-                onEditClick={openEditBookingModal}
-                onDeleteClick={handleDeleteBooking}
-                onViewClick={handleViewBooking}
-                onToggleStatus={handleToggleBookingStatus}
-                onRetry={() => dispatch(fetchBookings())}
+          </Modal>
+          {/* Edit Hotel Modal */}
+          <Modal isOpen={showEditModal} onClose={handleCancel}>
+              <HotelForm
+                  formData={formData}
+                  onInputChange={handleInputChange}
+                  onSubmit={handleEditHotel}
+                  onCancel={handleCancel}
+                  title="Edit Hotel"
               />
-            </>
-          )}
-
-          {activeTab === 'customers' && (
-            <>
-              {/* Stats Cards */}
-              <StatsCards hotelCount={hotels.length} customerCount={users.length} bookingsCount={bookings.length} />
-
-              {/* Customers Management */}
-              <CustomersTable
-                users={users}
-                loading={usersLoading}
-                error={usersError}
-                searchTerm={customerSearchTerm}
-                onSearchChange={setCustomerSearchTerm}
-                onAddClick={() => setShowAddCustomerModal(true)}
-                onEditClick={openEditCustomerModal}
-                onDeleteClick={handleDeleteCustomer}
-                onViewClick={handleViewCustomer}
-                onRetry={() => dispatch(fetchUsers())}
+          </Modal>
+          {/* Add Customer Modal */}
+          <Modal isOpen={showAddCustomerModal} onClose={handleCustomerCancel}>
+              <CustomerForm
+                  formData={customerFormData}
+                  onInputChange={handleCustomerInputChange}
+                  onSubmit={handleAddCustomer}
+                  onCancel={handleCustomerCancel}
+                  title="Add New Customer"
               />
-            </>
+          </Modal>
+          {/* Edit Customer Modal */}
+          <Modal isOpen={showEditCustomerModal} onClose={handleCustomerCancel}>
+              <CustomerForm
+                  formData={customerFormData}
+                  onInputChange={handleCustomerInputChange}
+                  onSubmit={handleEditCustomer}
+                  onCancel={handleCustomerCancel}
+                  title="Edit Customer"
+              />
+          </Modal>
+          {/* Add Booking Modal */}
+          <Modal isOpen={showAddBookingModal} onClose={handleBookingCancel}>
+              <BookingForm
+                  formData={bookingFormData}
+                  onInputChange={handleBookingInputChange}
+                  onSubmit={handleAddBooking}
+                  onCancel={handleBookingCancel}
+                  title="Add New Booking"
+              />
+          </Modal>
+          {/* Edit Booking Modal */}
+          <Modal isOpen={showEditBookingModal} onClose={handleBookingCancel}>
+              <BookingForm
+                  formData={bookingFormData}
+                  onInputChange={handleBookingInputChange}
+                  onSubmit={handleEditBooking}
+                  onCancel={handleBookingCancel}
+                  title="Edit Booking"
+              />
+          </Modal>
+          {/* Customer Details Modal */}
+          {showCustomerDetails && selectedUser && (
+              <CustomerDetails customer={selectedUser} onClose={() => setShowCustomerDetails(false)} />
           )}
-
-          {activeTab === 'settings' && (
-            <div className="p-6 bg-white rounded-lg shadow">
-              <h2 className="mb-4 text-xl font-semibold text-gray-900">Settings</h2>
-              <p className="text-gray-600">Settings functionality coming soon...</p>
-            </div>
+          {/* Booking Details Modal */}
+          {showBookingDetails && selectedBooking && (
+              <BookingDetails booking={selectedBooking} onClose={() => setShowBookingDetails(false)} />
           )}
-        </main>
       </div>
-
-      {/* Add Hotel Modal */}
-      <Modal isOpen={showAddModal} onClose={handleCancel}>
-        <HotelForm
-          formData={formData}
-          onInputChange={handleInputChange}
-          onSubmit={handleAddHotel}
-          onCancel={handleCancel}
-          title="Add New Hotel"
-        />
-      </Modal>
-
-      {/* Edit Hotel Modal */}
-      <Modal isOpen={showEditModal} onClose={handleCancel}>
-        <HotelForm
-          formData={formData}
-          onInputChange={handleInputChange}
-          onSubmit={handleEditHotel}
-          onCancel={handleCancel}
-          title="Edit Hotel"
-        />
-      </Modal>
-
-      {/* Add Customer Modal */}
-      <Modal isOpen={showAddCustomerModal} onClose={handleCustomerCancel}>
-        <CustomerForm
-          formData={customerFormData}
-          onInputChange={handleCustomerInputChange}
-          onSubmit={handleAddCustomer}
-          onCancel={handleCustomerCancel}
-          title="Add New Customer"
-        />
-      </Modal>
-
-      {/* Edit Customer Modal */}
-      <Modal isOpen={showEditCustomerModal} onClose={handleCustomerCancel}>
-        <CustomerForm
-          formData={customerFormData}
-          onInputChange={handleCustomerInputChange}
-          onSubmit={handleEditCustomer}
-          onCancel={handleCustomerCancel}
-          title="Edit Customer"
-        />
-      </Modal>
-
-      {/* Add Booking Modal */}
-      <Modal isOpen={showAddBookingModal} onClose={handleBookingCancel}>
-        <BookingForm
-          formData={bookingFormData}
-          onInputChange={handleBookingInputChange}
-          onSubmit={handleAddBooking}
-          onCancel={handleBookingCancel}
-          title="Add New Booking"
-        />
-      </Modal>
-
-      {/* Edit Booking Modal */}
-      <Modal isOpen={showEditBookingModal} onClose={handleBookingCancel}>
-        <BookingForm
-          formData={bookingFormData}
-          onInputChange={handleBookingInputChange}
-          onSubmit={handleEditBooking}
-          onCancel={handleBookingCancel}
-          title="Edit Booking"
-        />
-      </Modal>
-
-      {/* Customer Details Modal */}
-      {showCustomerDetails && selectedUser && (
-        <CustomerDetails
-          customer={selectedUser}
-          onClose={() => setShowCustomerDetails(false)}
-        />
-      )}
-
-      {/* Booking Details Modal */}
-      {showBookingDetails && selectedBooking && (
-        <BookingDetails
-          booking={selectedBooking}
-          onClose={() => setShowBookingDetails(false)}
-        />
-      )}
-    </div>
   );
 };
 

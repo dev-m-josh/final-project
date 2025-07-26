@@ -42,6 +42,8 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
         });
     };
 
+    console.log(filteredUsers)
+
     return (
         <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b">
@@ -143,7 +145,7 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center">
-                                            {user.isVerified === "true" ? (
+                                            {user.isVerified ? (
                                                 <>
                                                     <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
                                                     <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
@@ -165,12 +167,12 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
                                             <Shield className="w-4 h-4 mr-2 text-gray-400" />
                                             <span
                                                 className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                                    user.isAdmin === "true"
+                                                    user.isAdmin
                                                         ? "bg-purple-100 text-purple-800"
                                                         : "bg-gray-100 text-gray-800"
                                                 }`}
                                             >
-                                                {user.isAdmin === "true" ? "Admin" : "Customer"}
+                                                {user.isAdmin ? "Admin" : "Customer"}
                                             </span>
                                         </div>
                                     </td>

@@ -89,45 +89,46 @@ const HotelForm: React.FC<HotelFormProps> = ({ formData, onInputChange, onSubmit
                 </div>
 
                 <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Image URL</label>
+                    <label className="block mb-1 text-sm font-medium text-gray-700">Address</label>
                     <input
-                        type="url"
-                        name="imageUrl"
-                        value={formData.imageUrl}
+                        type="text"
+                        name="address"
+                        value={formData.address}
                         onChange={onInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="https://example.com/image.jpg"
+                        required
                     />
                 </div>
             </div>
 
             <div>
-                <label className="block mb-1 text-sm font-medium text-gray-700">Address</label>
+                <label className="block mb-1 text-sm font-medium text-gray-700">Image URL</label>
                 <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
+                    type="url"
+                    name="imageUrl"
+                    value={formData.imageUrl}
                     onChange={onInputChange}
+                    placeholder="https://example.com/image.jpg"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                 />
             </div>
 
-            <div className="flex pt-4 space-x-3">
-                <button
-                    type="submit"
-                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
-                >
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Hotel
-                </button>
+            <div className="flex pt-4 space-x-3 w-full items-center justify-end">
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
+                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
                 >
                     <X className="w-4 h-4 mr-2" />
                     Cancel
+                </button>
+                <button
+                    type="submit"
+                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+                >
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Hotel
                 </button>
             </div>
         </form>

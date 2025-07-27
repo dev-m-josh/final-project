@@ -11,7 +11,6 @@ interface BookingFormProps {
 }
 
 const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSubmit, onCancel, title }) => {
-    console.log(FormData)
     return (
         <form onSubmit={onSubmit} className="space-y-4">
             <h3 className="mb-4 text-lg font-semibold text-gray-900">{title}</h3>
@@ -80,56 +79,23 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, onInputChange, onSu
                         step="0.01"
                     />
                 </div>
-
-                {/* <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Confirmation Status</label>
-                    <select
-                        name="isConfirmed"
-                        value={formData.isConfirmed.toString()}
-                        onChange={onInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    >
-                        <option value="">Select Status</option>
-                        <option value="false">Pending</option>
-                        <option value="true">Confirmed</option>
-                    </select>
-                </div> */}
-
-                {/* <div className="md:col-span-2">
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Rating</label>
-                    <select
-                        name="rating"
-                        value={formData.rating}
-                        onChange={onInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    >
-                        <option value="">Select Rating</option>
-                        <option value="1">1 Star</option>
-                        <option value="2">2 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="5">5 Stars</option>
-                    </select>
-                </div> */}
             </div>
 
-            <div className="flex pt-4 space-x-3">
-                <button
-                    type="submit"
-                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
-                >
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Booking
-                </button>
+            <div className="flex pt-4 space-x-3 justify-end">
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
+                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
                 >
                     <X className="w-4 h-4 mr-2" />
                     Cancel
+                </button>
+                <button
+                    type="submit"
+                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+                >
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Booking
                 </button>
             </div>
         </form>

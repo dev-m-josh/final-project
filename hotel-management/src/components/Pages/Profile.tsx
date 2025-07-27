@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { ToastContainer, toast} from "react-toastify"
 
 const Profile = () => {
     const user = JSON.parse(localStorage.getItem("myUser") || "{}");
@@ -89,11 +90,20 @@ const Profile = () => {
             const updatedUser = await response.json();
             localStorage.setItem("myUser", JSON.stringify(updatedUser));
             setShowEditModal(false);
-            alert("Profile updated successfully.");
+            toast.success("Profile updated successfully.", {
+                position: "top-center",
+                autoClose: 100000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
             window.location.reload(); // reflect changes immediately
         } catch (error) {
             console.error("Error updating profile:", error);
-            alert("Failed to update profile. Please try again.");
+            toast("Failed to update profile. Please try again.");
         }
     };
 
@@ -120,6 +130,18 @@ const Profile = () => {
 
     return (
         <div className="relative max-w-4xl p-6 mx-auto mt-24 bg-white shadow-lg rounded-xl">
+            <ToastContainer
+                position="top-right"
+                autoClose={100000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <button
                 onClick={() => navigate("/")}
                 className="absolute flex items-center gap-2 text-purple-700 transition-colors cursor-pointer top-4 left-4 hover:text-purple-900"
@@ -127,7 +149,6 @@ const Profile = () => {
                 <ArrowLeft size={20} />
                 <span className="text-sm font-medium">Back</span>
             </button>
-
             <div className="flex flex-col items-center mb-8">
                 <div className="flex items-center justify-center w-24 h-24 mb-4 text-3xl font-bold text-white bg-purple-600 rounded-full">
                     {initials}
@@ -135,14 +156,12 @@ const Profile = () => {
                 <h2 className="text-2xl font-bold text-purple-700">{fullName}</h2>
                 <p className="text-gray-500">{user.email}</p>
             </div>
-
             <div className="grid w-full grid-cols-1 gap-6 mb-8 sm:grid-cols-2">
                 <ProfileField label="Phone Number" value={user.contactPhone || "N/A"} />
                 <ProfileField label="Address" value={user.address || "N/A"} />
                 <ProfileField label="Account Type" value={accountType} />
                 <ProfileField label="Verified" value={verified} />
             </div>
-
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
                 <button
                     onClick={handleEditProfile}
@@ -157,7 +176,6 @@ const Profile = () => {
                     Delete Account
                 </button>
             </div>
-
             {/* Delete Confirmation Modal */}
             {showDeleteModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
@@ -183,7 +201,6 @@ const Profile = () => {
                     </div>
                 </div>
             )}
-
             {/* Edit Profile Modal */}
             {showEditModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
@@ -216,6 +233,7 @@ const Profile = () => {
                                 onChange={handleChange}
                                 className="col-span-2 p-2 text-gray-700 border rounded"
                                 required
+                                disabled
                             />
                             <input
                                 type="text"

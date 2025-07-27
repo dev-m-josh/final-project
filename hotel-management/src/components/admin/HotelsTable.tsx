@@ -52,7 +52,7 @@ const HotelsTable: React.FC<HotelsTableProps> = ({
                     <h2 className="text-xl font-semibold text-gray-900">Hotel Management</h2>
                     <button
                         onClick={onAddClick}
-                        className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+                        className="cursor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
                     >
                         <Plus className="w-4 h-4 mr-2" />
                         Add Hotel
@@ -159,13 +159,13 @@ const HotelsTable: React.FC<HotelsTableProps> = ({
                                         <div className="flex space-x-2">
                                             <button
                                                 onClick={() => onEditClick(hotel)}
-                                                className="p-1 text-blue-600 rounded hover:text-blue-900 hover:bg-blue-50"
+                                                className="p-1 cursor-pointer text-blue-600 rounded hover:text-blue-900 hover:bg-blue-50"
                                             >
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => onDeleteClick(hotel.hotelId)}
-                                                className="p-1 text-red-600 rounded hover:text-red-900 hover:bg-red-50"
+                                                className="p-1 cursor-pointer text-red-600 rounded hover:text-red-900 hover:bg-red-50"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>

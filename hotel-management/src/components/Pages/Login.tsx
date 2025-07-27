@@ -42,7 +42,7 @@ const Login = () => {
 
                 setEmail("");
                 setPassword("");
-                navigate("/");
+                navigate("/hotels");
             } else {
                 setErrorMessage(response.data.message || "Login failed");
             }
@@ -58,18 +58,18 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 pt-20">
-            <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
+        <div className="flex items-center justify-center min-h-screen px-4 py-12 pt-20 bg-gray-50 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Welcome back</h2>
+                    <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">Welcome back</h2>
                 </div>
-                <button className="w-full cursor-pointer text-black font-semibold flex items-center justify-center gap-0">
-                    <img src="/google.png" alt="Google" className="h-6 w-12" />
+                <button className="flex items-center justify-center w-full gap-0 font-semibold text-black cursor-pointer">
+                    <img src="/google.png" alt="Google" className="w-12 h-6" />
                     Continue with Google
                 </button>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="email" className="block text-bg font-medium text-gray-700">
+                        <label htmlFor="email" className="block font-medium text-gray-700 text-bg">
                             Email
                         </label>
                         <input
@@ -79,12 +79,12 @@ const Login = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email..."
                             required
-                            className="mt-1 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                            className="w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="block text-bg font-medium text-gray-700">
+                        <label htmlFor="password" className="block font-medium text-gray-700 text-bg">
                             Password
                         </label>
                         <div className="relative mt-1">
@@ -94,23 +94,23 @@ const Login = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="pr-10 text-black w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
+                                className="w-full px-3 py-2 pr-10 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                             />
                             <button
                                 type="button"
                                 onClick={togglePassword}
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                className="absolute inset-y-0 right-0 flex items-center pr-3"
                             >
                                 {showPassword ? (
-                                    <EyeOff className="h-4 w-4 text-gray-800 cursor-pointer sm:h-5 sm:w-5" />
+                                    <EyeOff className="w-4 h-4 text-gray-800 cursor-pointer sm:h-5 sm:w-5" />
                                 ) : (
-                                    <Eye className="h-4 w-4 text-gray-800 cursor-pointer sm:h-5 sm:w-5" />
+                                    <Eye className="w-4 h-4 text-gray-800 cursor-pointer sm:h-5 sm:w-5" />
                                 )}
                             </button>
                         </div>
                     </div>
 
-                    {errorMessage && <div className="text-red-600 text-sm text-center">{errorMessage}</div>}
+                    {errorMessage && <div className="text-sm text-center text-red-600">{errorMessage}</div>}
 
                     <div className="text-center">
                         <p className="text-sm text-gray-600">
@@ -118,7 +118,7 @@ const Login = () => {
                             <button
                                 type="button"
                                 onClick={() => navigate("/register")}
-                                className="text-purple-600 hover:text-purple-700 underline cursor-pointer"
+                                className="text-purple-600 underline cursor-pointer hover:text-purple-700"
                             >
                                 Sign Up
                             </button>
@@ -128,7 +128,7 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="w-full bg-purple-800 hover:bg-purple-700 cursor-pointer text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300 shadow-lg"
+                            className="w-full px-4 py-2 font-semibold text-white transition-colors duration-300 bg-purple-800 rounded-md shadow-lg cursor-pointer hover:bg-purple-700"
                         >
                             Sign In
                         </button>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Hotel, BarChart3, Users, Bed, Settings, LogOut, Ticket, CreditCard } from "lucide-react";
+import { Hotel, BarChart3, Users, Bed, Ticket, CreditCard } from "lucide-react";
 
 interface SidebarProps {
     activeTab: string;
@@ -14,7 +14,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
         { id: "rooms", label: "Rooms", icon: Bed },
         { id: "tickets", label: "Tickets", icon: Ticket },
         { id: "payments", label: "Payments", icon: CreditCard },
-        { id: "settings", label: "Settings", icon: Settings },
     ];
 
     return (
@@ -42,13 +41,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
                     </button>
                 ))}
             </nav>
-
-            <div className="absolute bottom-0 w-full p-6 border-t">
-                <button className="flex items-center text-gray-700 transition-colors duration-200 hover:text-red-600">
-                    <LogOut className="w-5 h-5 mr-3" />
-                    Logout
-                </button>
-            </div>
         </div>
     );
 };

@@ -51,20 +51,6 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
         }).format(amount);
     };
 
-    // const renderStars = (rating: string) => {
-    //     const numRating = parseFloat(rating) || 0;
-    //     const stars = [];
-    //     for (let i = 1; i <= 5; i++) {
-    //         stars.push(
-    //             <Star
-    //                 key={i}
-    //                 className={`h-3 w-3 ${i <= numRating ? "text-yellow-400 fill-current" : "text-gray-300"}`}
-    //             />
-    //         );
-    //     }
-    //     return stars;
-    // };
-
     return (
         <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b">
@@ -72,7 +58,7 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
                     <h2 className="text-xl font-semibold text-gray-900">Booking Management</h2>
                     <button
                         onClick={onAddClick}
-                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                        className="cursor-pointer flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
                     >
                         <Plus className="h-4 w-4 mr-2" />
                         Add Booking
@@ -125,9 +111,6 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Amount
                                 </th>
-                                {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Rating
-                                </th> */}
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Status
                                 </th>
@@ -171,12 +154,6 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
                                             {formatCurrency(booking.totalAmount)}
                                         </div>
                                     </td>
-                                    {/* <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="flex items-center">
-                                            {renderStars(booking.rating)}
-                                            <span className="ml-1 text-sm text-gray-600">({booking.rating})</span>
-                                        </div>
-                                    </td> */}
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button
                                             onClick={() => onToggleStatus(booking)}
@@ -203,21 +180,21 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
                                         <div className="flex space-x-2">
                                             <button
                                                 onClick={() => onViewClick(booking)}
-                                                className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
+                                                className="cursor-pointer text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
                                                 title="View Details"
                                             >
                                                 <Calendar className="h-4 w-4" />
                                             </button>
                                             <button
                                                 onClick={() => onEditClick(booking)}
-                                                className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50"
+                                                className="cursor-pointer text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50"
                                                 title="Edit Booking"
                                             >
                                                 <Edit className="h-4 w-4" />
                                             </button>
                                             <button
                                                 onClick={() => onDeleteClick(booking.bookingId)}
-                                                className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
+                                                className="cursor-pointer text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
                                                 title="Delete Booking"
                                             >
                                                 <Trash2 className="h-4 w-4" />

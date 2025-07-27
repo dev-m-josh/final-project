@@ -145,14 +145,14 @@ const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, l
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Amenities
+              Amenities (<i>enter comma separated items</i>)
             </label>
             <textarea
               name="amenities"
               value={formData.amenities}
               onChange={handleChange}
               rows={3}
-              placeholder="WiFi, Air Conditioning, Room Service..."
+              placeholder="WiFi, Air Conditioning, Room Service... "
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />

@@ -116,8 +116,13 @@ const AdminDashboard = () => {
 
   // Customer handlers
   const handleCustomerInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setCustomerFormData(prev => ({ ...prev, [name]: value }));
+      const { name, value } = e.target;
+      let parsedValue: string | boolean = value;
+      // Convert to boolean if it's a known boolean field
+      if (name === "isAdmin" || name === "isVerified") {
+          parsedValue = value === "true";
+      }
+      setCustomerFormData((prev) => ({ ...prev, [name]: parsedValue }));
   };
 
   // Booking handlers
@@ -501,13 +506,6 @@ const AdminDashboard = () => {
                           {/* Payments Management */}
                           <Payments />
                       </>
-                  )}
-
-                  {activeTab === "settings" && (
-                      <div className="p-6 bg-white rounded-lg shadow">
-                          <h2 className="mb-4 text-xl font-semibold text-gray-900">Settings</h2>
-                          <p className="text-gray-600">Settings functionality coming soon...</p>
-                      </div>
                   )}
               </main>
           </div>

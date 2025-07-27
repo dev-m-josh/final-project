@@ -59,11 +59,14 @@ export const updatePayment = createAsyncThunk(
                 paymentDate: updatedPayment.paymentDate ? new Date(updatedPayment.paymentDate) : null,
             };
 
-            const res = await fetch(`http://localhost:3000/payments/update/${updatedPayment.paymentId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
+            const res = await fetch(
+                `https://final-project-api-q0ob.onrender.com/payments/update/${updatedPayment.paymentId}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                }
+            );
 
             if (!res.ok) {
                 const error = await res.json();
@@ -85,7 +88,7 @@ export const addPayment = createAsyncThunk("payments/addPayment", async (newPaym
             newPayment
         };
 
-        const res = await fetch("http://localhost:3000/payments/add", {
+        const res = await fetch("https://final-project-api-q0ob.onrender.com/payments/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),

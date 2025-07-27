@@ -37,7 +37,7 @@ const initialState: BookingState = {
 export const fetchBookings = createAsyncThunk("bookings/fetchBookings", async () => {
     const res = await fetch("https://final-project-api-q0ob.onrender.com/bookings");
     const data = await res.json();
-    return data;
+    return data.reverse();
 });
 
 export const deleteBooking = createAsyncThunk("bookings/deleteBooking", async (bookingId: number) => {
@@ -59,11 +59,14 @@ export const updateBooking = createAsyncThunk(
                 updatedAt: new Date(),
             };
 
-            const res = await fetch(`http://localhost:3000/bookings/update/${updatedBooking.bookingId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
+            const res = await fetch(
+                `https://final-project-api-q0ob.onrender.com/bookings/update/${updatedBooking.bookingId}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                }
+            );
 
             if (!res.ok) {
                 const error = await res.json();
@@ -88,7 +91,7 @@ export const addBooking = createAsyncThunk("bookings/addBooking", async (newBook
             checkOutDate: new Date(newBooking.checkOutDate),
         };
 
-        const res = await fetch("http://localhost:3000/bookings/add", {
+        const res = await fetch("https://final-project-api-q0ob.onrender.com/bookings/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
@@ -124,9 +127,10 @@ export const fetchBookingsByUserId = createAsyncThunk(
     "bookings/fetchBookingsByUserId",
     async (userId: string, thunkAPI) => {
         try {
-            const res = await fetch(`http://localhost:3000/bookings/user/${userId}`);
+            const res = await fetch(`https://final-project-api-q0ob.onrender.com/bookings/user/${userId}`);
             if (!res.ok) throw new Error("Failed to fetch bookings by user");
-            return await res.json();
+            const data = await res.json()
+            return  data.reverse();
         } catch (err: unknown) {
             let message = "An unknown error occurred";
             if (err instanceof Error) message = err.message;
@@ -154,7 +158,7 @@ export const setIsconfirmedTrue = createAsyncThunk(
     "bookings/setIsconfirmedTrue",
     async (bookingId: number, thunkAPI) => {
         try {
-            const res = await fetch(`http://localhost:3000/bookings/confirm/${bookingId}`);
+            const res = await fetch(`https://final-project-api-q0ob.onrender.com/bookings/confirm/${bookingId}`);
             if (!res.ok) throw new Error("Failed to confirm booking");
             return await res.json();
         } catch (err: unknown) {

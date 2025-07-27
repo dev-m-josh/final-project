@@ -97,7 +97,7 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({ customer, onClose }) 
                                     </div>
                                 </div>
                                 <div className="flex items-center">
-                                    {customer.isVerified === "true" ? (
+                                    {customer.isVerified ? (
                                         <CheckCircle className="w-5 h-5 mr-3 text-green-600" />
                                     ) : (
                                         <XCircle className="w-5 h-5 mr-3 text-red-600" />
@@ -106,26 +106,15 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({ customer, onClose }) 
                                         <p className="font-medium text-gray-900">Verification Status</p>
                                         <span
                                             className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                                customer.isVerified === "true"
+                                                customer.isVerified
                                                     ? "bg-green-100 text-green-800"
                                                     : "bg-red-100 text-red-800"
                                             }`}
                                         >
-                                            {customer.isVerified === "true" ? "Verified" : "Unverified"}
+                                            {customer.isVerified ? "Verified" : "Unverified"}
                                         </span>
                                     </div>
                                 </div>
-                                {customer.verificationCode && (
-                                    <div className="flex items-center">
-                                        <div className="w-5 h-5 mr-3" />
-                                        <div>
-                                            <p className="font-medium text-gray-900">Verification Code</p>
-                                            <p className="font-mono text-sm text-gray-600">
-                                                {customer.verificationCode}
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
@@ -151,13 +140,12 @@ const CustomerDetails: React.FC<CustomerDetailsProps> = ({ customer, onClose }) 
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex pt-6 mt-8 space-x-4 border-t">
-                        <button className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
-                            <Mail className="w-5 h-5 mr-2" />
-                            Send Email
-                        </button>
-                        <button className="px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50">
-                            Edit Customer
+                    <div className="flex pt-6 mt-8 space-x-4 border-t justify-end">
+                        <button
+                            onClick={onClose}
+                            className="cursor-pointer px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50"
+                        >
+                            Close
                         </button>
                     </div>
                 </div>

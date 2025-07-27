@@ -53,7 +53,7 @@ const UserDashboard = () => {
             const updatedBooking: BookingType = {
                 ...selectedBooking,
                 isConfirmed: true,
-                updatedAt: new Date().toISOString()  ,
+                updatedAt: new Date()  ,
             };
 
             await dispatch(updateBooking(updatedBooking)).unwrap();
@@ -93,7 +93,7 @@ const UserDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex">
+        <div className="flex min-h-screen bg-gray-100">
             {/* Sidebar */}
             <UserSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 

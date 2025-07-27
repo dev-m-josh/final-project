@@ -57,8 +57,11 @@ export const updateUser = async (req: Request, res: Response) => {
 
         const payload = {
             ...req.body,
-            updatedAt: new Date()
-        }
+            isAdmin: req.body.isAdmin === true || req.body.isAdmin === "true",
+            isVerified: req.body.isVerified === true || req.body.isVerified === "true",
+            createdAt: new Date(req.body.createdAt),
+            updatedAt: new Date(),
+        };
 
         const updatedUser = await userService.updateUser(userId, payload);
         res.json(updatedUser);

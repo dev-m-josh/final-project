@@ -1,9 +1,9 @@
 import React from "react";
 import { Save, X } from "lucide-react";
-import type { NewUserType } from "../../features/usersSlice";
+import type { NewUserType, UpdateUserType } from "../../features/usersSlice";
 
 interface CustomerFormProps {
-    formData: NewUserType;
+    formData: UpdateUserType | NewUserType;
     onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     onSubmit: (e: React.FormEvent) => void;
     onCancel: () => void;
@@ -49,6 +49,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ formData, onInputChange, on
                         onChange={onInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
+                        disabled
                     />
                 </div>
 
@@ -93,18 +94,6 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ formData, onInputChange, on
                         <option value="true">Verified</option>
                     </select>
                 </div>
-
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-700">Verification Code</label>
-                    <input
-                        type="text"
-                        name="verificationCode"
-                        value={formData.verificationCode}
-                        onChange={onInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Optional verification code"
-                    />
-                </div>
             </div>
 
             <div>
@@ -119,21 +108,21 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ formData, onInputChange, on
                 />
             </div>
 
-            <div className="flex pt-4 space-x-3">
-                <button
-                    type="submit"
-                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
-                >
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Customer
-                </button>
+            <div className="flex pt-4 space-x-3 justify-end">
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
+                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
                 >
                     <X className="w-4 h-4 mr-2" />
                     Cancel
+                </button>
+                <button
+                    type="submit"
+                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+                >
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Customer
                 </button>
             </div>
         </form>

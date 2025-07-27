@@ -39,13 +39,13 @@ const initialState: UserState = {
 // -------------------- Async Thunks --------------------
 
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-    const res = await fetch("http://localhost:3000/users");
+    const res = await fetch("https://final-project-api-q0ob.onrender.com/users");
     const data = await res.json();
     return data;
 });
 
 export const deleteUser = createAsyncThunk("users/deleteUser", async (userId: number) => {
-    await fetch(`http://localhost:3000/users/delete/${userId}`, {
+    await fetch(`https://final-project-api-q0ob.onrender.com/users/delete/${userId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
     });
@@ -59,7 +59,7 @@ export const updateUser = createAsyncThunk("users/updateUser", async (updatedUse
             updatedAt: new Date(),
         };
 
-        const res = await fetch(`http://localhost:3000/users/update/${updatedUser.userId}`, {
+        const res = await fetch(`https://final-project-api-q0ob.onrender.com/users/update/${updatedUser.userId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
@@ -79,7 +79,7 @@ export const updateUser = createAsyncThunk("users/updateUser", async (updatedUse
 
 export const addUser = createAsyncThunk("users/addUser", async (newUser: NewUserType, thunkAPI) => {
     try {
-        const res = await fetch("http://localhost:3000/users/add", {
+        const res = await fetch("https://final-project-api-q0ob.onrender.com/users/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -104,7 +104,7 @@ export const addUser = createAsyncThunk("users/addUser", async (newUser: NewUser
 
 export const userDetails = createAsyncThunk("users/userDetails", async (userId: number, thunkAPI) => {
     try {
-        const res = await fetch(`http://localhost:3000/users/details/${userId}`);
+        const res = await fetch(`https://final-project-api-q0ob.onrender.com/users/details/${userId}`);
         if (!res.ok) throw new Error("Failed to fetch user details");
         return await res.json();
     } catch (err: unknown) {

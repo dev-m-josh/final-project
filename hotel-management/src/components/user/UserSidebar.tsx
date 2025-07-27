@@ -1,5 +1,5 @@
 import React from "react";
-import { Calendar, CreditCard, User, LogOut } from "lucide-react";
+import { Calendar, CreditCard } from "lucide-react";
 
 interface UserSidebarProps {
     activeTab: string;
@@ -10,7 +10,6 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ activeTab, setActiveTab }) =>
     const sidebarItems = [
         { id: "bookings", label: "My Bookings", icon: Calendar },
         { id: "payments", label: "My Payments", icon: CreditCard },
-        { id: "profile", label: "Profile", icon: User },
     ];
 
     return (
@@ -38,13 +37,6 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ activeTab, setActiveTab }) =>
                     </button>
                 ))}
             </nav>
-
-      <div className="absolute bottom-0 w-full p-6 border-t">
-                <button className="flex items-center text-gray-700 hover:text-red-600 transition-colors duration-200">
-                    <LogOut className="h-5 w-5 mr-3" />
-                    Logout
-                </button>
-            </div>
         </div>
     );
 };

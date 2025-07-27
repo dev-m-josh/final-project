@@ -47,7 +47,15 @@ export const updateBooking = async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Booking not found" });
         }
 
-        const updated = await bookingService.updateBooking(bookingId, req.body);
+        const payload = {
+            ...req.body,
+            createdAt: new Date(req.body.createdAt),
+            checkInDate: new Date(req.body.checkInDate),
+            checkOutDate: new Date(req.body.checkOutDate),
+            updatedAt: new Date(),
+        };
+
+        const updated = await bookingService.updateBooking(bookingId, payload);
         res.json(updated);
     } catch (error) {
         console.error("Error updating booking:", error);

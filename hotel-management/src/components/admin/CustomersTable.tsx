@@ -1,5 +1,5 @@
 import React from "react";
-import { Plus, Search, Edit, Trash2, Mail, Phone, Shield, CheckCircle, XCircle } from "lucide-react";
+import { Search, Edit, Trash2, Mail, Phone, Shield, CheckCircle, XCircle } from "lucide-react";
 import type { UserType } from "../../features/usersSlice";
 
 interface CustomersTableProps {
@@ -21,7 +21,6 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
     error,
     searchTerm,
     onSearchChange,
-    onAddClick,
     onEditClick,
     onDeleteClick,
     onViewClick,
@@ -47,13 +46,6 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
             <div className="p-6 border-b">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-semibold text-gray-900">Customer Management</h2>
-                    <button
-                        onClick={onAddClick}
-                        className="flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
-                    >
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Customer
-                    </button>
                 </div>
 
                 {/* Search */}
@@ -81,7 +73,7 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
                         <p>Error: {error}</p>
                         <button
                             onClick={onRetry}
-                            className="px-6 py-2 mt-4 text-white transition-colors duration-200 bg-red-600 rounded-lg hover:bg-red-700"
+                            className="cusor-pointer inline-block px-6 py-2 mt-4 text-white transition-colors duration-200 bg-red-600 rounded-lg hover:bg-red-700"
                         >
                             Try Again
                         </button>
@@ -181,21 +173,23 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
                                         <div className="flex space-x-2">
                                             <button
                                                 onClick={() => onViewClick(user)}
-                                                className="p-1 text-blue-600 rounded hover:text-blue-900 hover:bg-blue-50"
+                                                className="cusor-pointer p-1 text-blue-600 rounded hover:text-blue-900 hover:bg-blue-50"
                                                 title="View Details"
                                             >
                                                 <Mail className="w-4 h-4" />
                                             </button>
                                             <button
-                                                onClick={() => onEditClick(user)}
-                                                className="p-1 text-green-600 rounded hover:text-green-900 hover:bg-green-50"
+                                                onClick={() => {
+                                                    onEditClick(user);
+                                                }}
+                                                className="cusor-pointer p-1 text-green-600 rounded hover:text-green-900 hover:bg-green-50"
                                                 title="Edit Customer"
                                             >
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => onDeleteClick(user.userId)}
-                                                className="p-1 text-red-600 rounded hover:text-red-900 hover:bg-red-50"
+                                                className="cusor-pointer p-1 text-red-600 rounded hover:text-red-900 hover:bg-red-50"
                                                 title="Delete Customer"
                                             >
                                                 <Trash2 className="w-4 h-4" />

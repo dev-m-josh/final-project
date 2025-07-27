@@ -112,14 +112,14 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ formData, onInputChange, on
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
+                    className="cursor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-gray-500 rounded-lg hover:bg-gray-600"
                 >
                     <X className="w-4 h-4 mr-2" />
                     Cancel
                 </button>
                 <button
                     type="submit"
-                    className="cusor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+                    className="cursor-pointer flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
                 >
                     <Save className="w-4 h-4 mr-2" />
                     Save Customer

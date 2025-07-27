@@ -40,7 +40,7 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute z-10 p-2 transition-colors duration-200 bg-white rounded-full shadow-lg top-4 right-4 hover:bg-gray-100"
+                    className="cursor-pointer absolute z-10 p-2 transition-colors duration-200 bg-white rounded-full shadow-lg top-4 right-4 hover:bg-gray-100"
                 >
                     <X className="w-5 h-5 text-gray-600" />
                 </button>
@@ -177,7 +177,7 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({ booking, onClose }) => 
                     {/* Action Buttons */}
                     <div className="flex pt-6 mt-8 space-x-4 border-t justify-end">
                         <button
-                            className="px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50"
+                            className="cursor-pointer px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50"
                             onClick={onClose}
                         >
                             Close

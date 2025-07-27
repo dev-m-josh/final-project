@@ -60,7 +60,7 @@ const RoomTable: React.FC<RoomTableProps> = ({ rooms, loading, onEdit, onDelete,
                     <h2 className="text-xl font-semibold text-gray-900">Rooms Management</h2>
                     <button
                         onClick={onAdd}
-                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                         <Plus className="w-4 h-4 mr-2" />
                         Add Room
@@ -168,21 +168,21 @@ const RoomTable: React.FC<RoomTableProps> = ({ rooms, loading, onEdit, onDelete,
                                     <div className="flex items-center justify-end space-x-2">
                                         <button
                                             onClick={() => onView(room)}
-                                            className="text-gray-600 hover:text-gray-900 p-1 rounded transition-colors"
+                                            className="cursor-pointer text-gray-600 hover:text-gray-900 p-1 rounded transition-colors"
                                             title="View Details"
                                         >
                                             <Eye className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => onEdit(room)}
-                                            className="text-blue-600 hover:text-blue-900 p-1 rounded transition-colors"
+                                            className="cursor-pointer text-blue-600 hover:text-blue-900 p-1 rounded transition-colors"
                                             title="Edit Room"
                                         >
                                             <Edit className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => onDelete(room.roomId)}
-                                            className="text-red-600 hover:text-red-900 p-1 rounded transition-colors"
+                                            className="cursor-pointer text-red-600 hover:text-red-900 p-1 rounded transition-colors"
                                             title="Delete Room"
                                         >
                                             <Trash2 className="w-4 h-4" />

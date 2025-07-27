@@ -237,7 +237,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ booking, onClose, onSuccess
                               <button
                                   type="submit"
                                   disabled={loading}
-                                  className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                  className="cursor-pointer flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                               >
                                   {loading ? (
                                       <>
@@ -254,7 +254,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ booking, onClose, onSuccess
                               <button
                                   type="button"
                                   onClick={onClose}
-                                  className="px-6 py-3 font-semibold text-gray-700 transition-colors duration-200 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                  className="cursor-pointer px-6 py-3 font-semibold text-gray-700 transition-colors duration-200 border border-gray-300 rounded-lg hover:bg-gray-50"
                               >
                                   Cancel
                               </button>

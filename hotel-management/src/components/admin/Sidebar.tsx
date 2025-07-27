@@ -17,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
     ];
 
     return (
-        <div className="fixed w-64 h-full bg-white shadow-lg">
+        <div className="fixed w-64 h-full bg-white shadow-lg mt-17">
             <div className="p-6 border-b">
                 <div className="flex items-center">
                     <Hotel className="w-8 h-8 text-blue-600" />
@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
                     <button
                         key={item.id}
                         onClick={() => setActiveTab(item.id)}
-                        className={`w-full flex items-center px-6 py-3 text-left hover:bg-blue-50 transition-colors duration-200 ${
+                        className={`cursor-pointer w-full flex items-center px-6 py-3 text-left hover:bg-blue-50 transition-colors duration-200 ${
                             activeTab === item.id
                                 ? "bg-blue-50 border-r-2 border-blue-600 text-blue-600"
                                 : "text-gray-700"

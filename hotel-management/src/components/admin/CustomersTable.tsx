@@ -173,7 +173,7 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
                                         <div className="flex space-x-2">
                                             <button
                                                 onClick={() => onViewClick(user)}
-                                                className="cusor-pointer p-1 text-blue-600 rounded hover:text-blue-900 hover:bg-blue-50"
+                                                className="cursor-pointer p-1 text-blue-600 rounded hover:text-blue-900 hover:bg-blue-50"
                                                 title="View Details"
                                             >
                                                 <Mail className="w-4 h-4" />
@@ -182,14 +182,14 @@ const CustomersTable: React.FC<CustomersTableProps> = ({
                                                 onClick={() => {
                                                     onEditClick(user);
                                                 }}
-                                                className="cusor-pointer p-1 text-green-600 rounded hover:text-green-900 hover:bg-green-50"
+                                                className="cursor-pointer p-1 text-green-600 rounded hover:text-green-900 hover:bg-green-50"
                                                 title="Edit Customer"
                                             >
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => onDeleteClick(user.userId)}
-                                                className="cusor-pointer p-1 text-red-600 rounded hover:text-red-900 hover:bg-red-50"
+                                                className="cursor-pointer p-1 text-red-600 rounded hover:text-red-900 hover:bg-red-50"
                                                 title="Delete Customer"
                                             >
                                                 <Trash2 className="w-4 h-4" />

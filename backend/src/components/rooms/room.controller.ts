@@ -94,3 +94,17 @@ export const getRoomsByHotelId = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Failed to fetch rooms by hotel" });
     }
 };
+
+export const getAvailableRoomsByHotelId = async (req: Request, res: Response) => {
+    try {
+        const hotelId = Number(req.params.hotelId);
+        if (isNaN(hotelId)) {
+            return res.status(400).json({ message: "Invalid user ID" });
+        }
+        const rooms = await roomService.getAvailableRoomsByHotelIdService(hotelId);
+        res.json(rooms);
+    } catch (error) {
+        console.error("Error fetching available rooms by hotelId:", error);
+        res.status(500).json({ message: "Failed to fetch available rooms by hotel" });
+    }
+}

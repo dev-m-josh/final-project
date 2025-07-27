@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux.ts";
+import { useAppSelector } from "../../hooks/redux.ts";
 import type { PaymentType } from "../../features/paymentSlice";
 import {
     deletePayment,
     fetchPayments,
-    paymentDetails
 } from "../../features/paymentSlice.ts";
 
 import PaymentTable from "./PaymentTable.tsx";
@@ -69,7 +68,7 @@ const Payments: React.FC = () => {
                             </h3>
                             <button
                                 onClick={handleCloseView}
-                                className="text-gray-400 transition-colors duration-150 hover:text-gray-600"
+                                className="cursor-pointer text-gray-400 transition-colors duration-150 hover:text-gray-600"
                             >
                                 <X className="w-6 h-6" />
                             </button>
@@ -139,7 +138,7 @@ const Payments: React.FC = () => {
                             <div className="flex justify-end pt-4 space-x-3 border-t border-gray-200">
                                 <button
                                     onClick={handleCloseView}
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-150 bg-gray-100 rounded-md hover:bg-gray-200"
+                                    className="cursor-pointer px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-150 bg-gray-100 rounded-md hover:bg-gray-200"
                                 >
                                     Close
                                 </button>

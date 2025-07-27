@@ -131,7 +131,7 @@ const UserBookings: React.FC<UserBookingsProps> = ({ bookings, loading, error, o
                             {!booking.isConfirmed ? (
                                 <button
                                     onClick={() => onMakePayment(booking)}
-                                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center"
+                                    className="cursor-pointer bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center"
                                 >
                                     <CreditCard className="h-4 w-4 mr-2" />
                                     Make Payment

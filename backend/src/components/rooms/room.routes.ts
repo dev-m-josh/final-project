@@ -10,5 +10,6 @@ roomsRouter.post("/add", roomsController.createRoom);
 roomsRouter.put("/update/:id", roomsController.updateRoom as any);
 roomsRouter.delete("/delete/:id", roomsController.deleteRoom as any);
 roomsRouter.get("/hotel/:hotelId", roomsController.getRoomsByHotelId as any);
+roomsRouter.get("/available/:hotelId", roomsController.getAvailableRoomsByHotelId as any);
 
 export default roomsRouter;

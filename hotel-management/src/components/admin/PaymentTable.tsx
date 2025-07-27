@@ -26,7 +26,7 @@ const PaymentTable: React.FC<Props> = ({ payments, loading, onView, onDelete }) 
                 </div>
             );
         }
-    
+
     return (
         <div>
             <div className="overflow-x-auto border rounded-lg">
@@ -67,13 +67,13 @@ const PaymentTable: React.FC<Props> = ({ payments, loading, onView, onDelete }) 
                                     <td className="px-4 py-2 space-x-2">
                                         <button
                                             onClick={() => onView(payment)}
-                                            className="text-blue-500 hover:text-blue-700"
+                                            className="cursor-pointer text-blue-500 hover:text-blue-700"
                                         >
                                             <Eye className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => onDelete(payment.paymentId)}
-                                            className="text-red-500 hover:text-red-700"
+                                            className="cursor-not-allowed text-red-500 hover:text-red-700"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>

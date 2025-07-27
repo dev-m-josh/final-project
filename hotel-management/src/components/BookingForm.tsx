@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '../hooks/redux';
 import { addBooking, type NewBookingType } from '../features/bookingsSlice';
 import { CreditCard, Star, X } from 'lucide-react';
@@ -22,18 +22,55 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
 
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
+    const [rooms, setRooms] = useState([]);
     const [formData, setFormData] = useState({
-        roomId: 1,
+        roomId: 0,
         checkInDate: "",
         checkOutDate: "",
         totalAmount: 0,
+        pricePerNight: 0,
     });
+
+    useEffect(() => {
+    const fetchRooms = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/rooms/available/${hotel.hotelId}`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch available rooms");
+            } else {
+                const data = await response.json();
+                setRooms(data);
+            }
+        } catch (error) {
+            console.error("Error fetching available rooms:", error);
+            setRooms([]);
+        }
+    };
+
+    fetchRooms();
+    }, [hotel.hotelId]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
             [name]: name === "roomId" || name === "totalAmount" ? Number(value) : value,
+        }));
+    };
+
+    const handleRoomSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedRoomId = Number(e.target.value);
+        const selectedRoom = rooms.find((room: any) => room.roomId === selectedRoomId);
+
+        const nights = calculateNights();
+        const pricePerNight = selectedRoom?.pricePerNight || 0;
+        const total = nights * pricePerNight;
+
+        setFormData((prev) => ({
+            ...prev,
+            roomId: selectedRoomId,
+            pricePerNight: pricePerNight,
+            totalAmount: total,
         }));
     };
 
@@ -50,19 +87,17 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
 
     const calculateTotal = () => {
         const nights = calculateNights();
-        const basePrice = 1; // Base price per night
-        const categoryMultiplier =
-            {
-                Luxury: 2.5,
-                Business: 1.8,
-                Resort: 2.0,
-                Boutique: 1.5,
-                Budget: 1.0,
-            }[hotel.category] || 1.0;
 
-        const total = nights * basePrice * categoryMultiplier;
+        // Find the selected room object
+        const selectedRoom = rooms.find((room: any) => room.roomId === formData.roomId);
 
-        // Update formData with calculated total
+        if (!selectedRoom) return 0;
+
+        const basePrice = selectedRoom.pricePerNight || 0;
+
+        const total = nights * basePrice;
+
+        // Update formData if changed
         if (total !== formData.totalAmount) {
             setFormData((prev) => ({ ...prev, totalAmount: total }));
         }
@@ -72,10 +107,10 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
 
     // Calculate total whenever dates change
     React.useEffect(() => {
-        if (formData.checkInDate && formData.checkOutDate) {
+        if (formData.checkInDate || formData.checkOutDate || formData.roomId) {
             calculateTotal();
         }
-    }, [formData.checkInDate, formData.checkOutDate]);
+    }, [formData.checkInDate, formData.checkOutDate, formData.roomId]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -143,7 +178,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute z-10 p-2 transition-colors duration-200 bg-white rounded-full shadow-lg top-4 right-4 hover:bg-gray-100"
+                    className="cursor-pointer absolute z-10 p-2 transition-colors duration-200 bg-white rounded-full shadow-lg top-4 right-4 hover:bg-gray-100"
                 >
                     <X className="w-5 h-5 text-gray-600" />
                 </button>
@@ -206,28 +241,35 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                 <h3 className="mb-4 text-xl font-semibold text-gray-900">Booking Details</h3>
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div>
-                                        <label className="block mb-1 text-sm font-medium text-gray-700">Room ID</label>
-                                        <input
-                                            type="number"
+                                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                                            Select Room
+                                        </label>
+                                        <select
                                             name="roomId"
                                             value={formData.roomId}
-                                            onChange={handleInputChange}
+                                            onChange={handleRoomSelect}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             required
-                                            min="1"
-                                        />
+                                        >
+                                            <option value="">Select a room</option>
+                                            {rooms.map((room: any) => (
+                                                <option key={room.roomId} value={room.roomId}>
+                                                    {room.roomId}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
+
                                     <div>
                                         <label className="block mb-1 text-sm font-medium text-gray-700">
                                             Total Amount ($)
                                         </label>
                                         <input
                                             type="number"
-                                            name="totalAmount"
-                                            value={formData.totalAmount}
-                                            onChange={handleInputChange}
+                                            name="pricePerNight"
+                                            value={formData.pricePerNight}
+                                            readOnly
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            required
                                             min="1"
                                         />
                                     </div>
@@ -272,14 +314,14 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                 <button
                                     type="button"
                                     onClick={onClose}
-                                    className="px-6 py-3 font-semibold text-gray-700 transition-colors duration-200 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                    className="cursor-pointer px-6 py-3 font-semibold text-gray-700 transition-colors duration-200 border border-gray-300 rounded-lg hover:bg-gray-50"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                    className="cursor-pointer flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                                 >
                                     {loading ? (
                                         <div className="w-5 h-5 mr-2 border-b-2 border-white rounded-full animate-spin"></div>

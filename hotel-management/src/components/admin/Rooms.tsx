@@ -102,7 +102,7 @@ const Rooms: React.FC = () => {
                             </h3>
                             <button
                                 onClick={handleCloseView}
-                                className="text-gray-400 transition-colors duration-150 hover:text-gray-600"
+                                className="cursor-pointer text-gray-400 transition-colors duration-150 hover:text-gray-600"
                             >
                                 <X className="w-6 h-6" />
                             </button>
@@ -180,19 +180,19 @@ const Rooms: React.FC = () => {
 
                             <div className="flex justify-end pt-4 space-x-3 border-t border-gray-200">
                                 <button
+                                    onClick={handleCloseView}
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-150 bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer"
+                                >
+                                    Close
+                                </button>
+                                <button
                                     onClick={() => {
                                         handleCloseView();
                                         handleEditRoom(viewingRoom);
                                     }}
-                                    className="px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-blue-600 rounded-md hover:bg-blue-700"
+                                    className="px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-blue-600 rounded-md hover:bg-blue-700 cursor-pointer"
                                 >
                                     Edit Room
-                                </button>
-                                <button
-                                    onClick={handleCloseView}
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-150 bg-gray-100 rounded-md hover:bg-gray-200"
-                                >
-                                    Close
                                 </button>
                             </div>
                         </div>

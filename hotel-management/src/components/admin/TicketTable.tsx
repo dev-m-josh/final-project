@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Edit, Trash2, Eye, Search, Plus, Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { Edit, Eye, Search, Plus, Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import type { SupportTicketType, SupportTicketStatus } from "../../features/supportTickets";
 
 interface TicketTableProps {
@@ -11,7 +11,7 @@ interface TicketTableProps {
     onAdd: () => void;
 }
 
-const TicketTable: React.FC<TicketTableProps> = ({ tickets, loading, onEdit, onDelete, onView, onAdd }) => {
+const TicketTable: React.FC<TicketTableProps> = ({ tickets, loading, onEdit, onView, onAdd }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState<string>("all");
 
@@ -81,7 +81,7 @@ const TicketTable: React.FC<TicketTableProps> = ({ tickets, loading, onEdit, onD
                     <h2 className="text-xl font-semibold text-gray-900">Support Tickets</h2>
                     <button
                         onClick={onAdd}
-                        className="inline-flex items-center px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
+                        className="cursor-pointer inline-flex items-center px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
                     >
                         <Plus className="w-4 h-4 mr-2" />
                         Add Ticket
@@ -178,24 +178,17 @@ const TicketTable: React.FC<TicketTableProps> = ({ tickets, loading, onEdit, onD
                                     <div className="flex items-center justify-end space-x-2">
                                         <button
                                             onClick={() => onView(ticket)}
-                                            className="p-1 text-gray-600 transition-colors rounded hover:text-gray-900"
+                                            className="cursor-pointer p-1 text-gray-600 transition-colors rounded hover:text-gray-900"
                                             title="View Details"
                                         >
                                             <Eye className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => onEdit(ticket)}
-                                            className="p-1 text-blue-600 transition-colors rounded hover:text-blue-900"
+                                            className="cursor-pointer p-1 text-blue-600 transition-colors rounded hover:text-blue-900"
                                             title="Edit Ticket"
                                         >
                                             <Edit className="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            onClick={() => onDelete(ticket.ticketId)}
-                                            className="p-1 text-red-600 transition-colors rounded hover:text-red-900"
-                                            title="Delete Ticket"
-                                        >
-                                            <Trash2 className="w-4 h-4" />
                                         </button>
                                     </div>
                                 </td>
@@ -208,7 +201,7 @@ const TicketTable: React.FC<TicketTableProps> = ({ tickets, loading, onEdit, onD
                     <div className="py-12 text-center">
                         <div className="text-gray-500">
                             {searchTerm || filterStatus !== "all"
-                               ? "No tickets match your search criteria."
+                                ? "No tickets match your search criteria."
                                 : "No support tickets found."}
                         </div>
                     </div>

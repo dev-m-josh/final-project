@@ -1,5 +1,5 @@
 // src/services/rooms.service.ts
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { db } from "../../drizzle/db";
 import { RoomsTable } from "../../drizzle/schema";
 
@@ -28,5 +28,15 @@ export const deleteRoom = async (id: number) => {
 
 export const getRoomsByHotelId = async (hotelId: number) => {
     const result = await db.select().from(RoomsTable).where(eq(RoomsTable.hotelId, hotelId));
+    return result;
+};
+
+//get rooms by hotelid and room isAvailable === true
+export const getAvailableRoomsByHotelIdService = async (hotelId: number) => {
+    const result = await db
+        .select()
+        .from(RoomsTable)
+        .where(and(eq(RoomsTable.hotelId, hotelId), eq(RoomsTable.isAvailable, true)));
+
     return result;
 };

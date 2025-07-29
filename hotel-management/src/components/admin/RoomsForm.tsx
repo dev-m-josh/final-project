@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import type { RoomType, NewRoomType, UpdateRoomType } from '../../features/roomsSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { fetchHotels } from "../../features/hotelsAuth";
 
 interface RoomFormProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (room: NewRoomType | UpdateRoomType) => void;
-  room?: RoomType | null;
-  loading?: boolean;
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: (room: NewRoomType | UpdateRoomType) => void;
+    room?: RoomType | null;
+    loading?: boolean;
+    hotels: { hotelId: number; name: string }[];
 }
 
 const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, loading }) => {
+const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     hotelId: 1,
     roomType: '',
@@ -19,6 +23,11 @@ const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, l
     amenities: '',
     isAvailable: true,
   });
+
+    const { hotels } = useAppSelector((state) => state.hotels);
+  useEffect(() => {
+    dispatch(fetchHotels());
+  }, [dispatch]);
 
   useEffect(() => {
     if (room) {
@@ -64,33 +73,36 @@ const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, l
   if (!isOpen) return null;
 
   return (
-      <div className="fixed inset-0 z-50 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-90vh overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-600 bg-opacity-75">
+          <div className="w-full max-w-md overflow-y-auto bg-white rounded-lg shadow-xl max-h-90vh">
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
                   <h3 className="text-lg font-medium text-gray-900">{room ? "Edit Room" : "Add New Room"}</h3>
                   <button
                       onClick={onClose}
-                      className="text-gray-400 hover:text-gray-600 transition-colors duration-150"
+                      className="text-gray-400 transition-colors duration-150 hover:text-gray-600"
                   >
                       <X className="w-6 h-6" />
                   </button>
               </div>
 
               <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                  <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Hotel ID</label>
-                      <input
-                          type="number"
-                          name="hotelId"
-                          value={formData.hotelId}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          required
-                      />
-                  </div>
+                  <select
+                      name="hotelId"
+                      value={formData.hotelId}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
+                  >
+                      <option value="">Select hotel</option>
+                      {hotels.map((hotel) => (
+                          <option key={hotel.hotelId} value={hotel.hotelId}>
+                              {hotel.name}
+                          </option>
+                      ))}
+                  </select>
 
                   <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+                      <label className="block mb-1 text-sm font-medium text-gray-700">Room Type</label>
                       <select
                           name="roomType"
                           value={formData.roomType}
@@ -107,7 +119,7 @@ const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, l
                   </div>
 
                   <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Price per Night ($)</label>
+                      <label className="block mb-1 text-sm font-medium text-gray-700">Price per Night ($)</label>
                       <input
                           type="text"
                           name="pricePerNight"
@@ -120,7 +132,7 @@ const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, l
                   </div>
 
                   <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Capacity</label>
+                      <label className="block mb-1 text-sm font-medium text-gray-700">Capacity</label>
                       <input
                           type="number"
                           name="capacity"
@@ -134,7 +146,7 @@ const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, l
                   </div>
 
                   <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block mb-1 text-sm font-medium text-gray-700">
                           Amenities (<i>enter comma separated items</i>)
                       </label>
                       <textarea
@@ -159,21 +171,21 @@ const RoomsForm: React.FC<RoomFormProps> = ({ isOpen, onClose, onSubmit, room, l
                       <label className="ml-2 text-sm text-gray-700">Room is available</label>
                   </div>
 
-                  <div className="flex justify-end space-x-3 pt-4">
+                  <div className="flex justify-end pt-4 space-x-3">
                       <button
                           type="button"
                           onClick={onClose}
-                          className="cursor-pointer px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-150"
+                          className="px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-150 bg-gray-100 rounded-md cursor-pointer hover:bg-gray-200"
                       >
                           Cancel
                       </button>
                       <button
                           type="submit"
                           disabled={loading}
-                          className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                          className="flex items-center px-4 py-2 text-sm font-medium text-white transition-colors duration-150 bg-blue-600 rounded-md cursor-pointer hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                           {loading && (
-                              <div className="cursor-pointer animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2">
+                              <div className="w-4 h-4 mr-2 border-b-2 border-white rounded-full cursor-pointer animate-spin">
                                   Loading
                               </div>
                           )}

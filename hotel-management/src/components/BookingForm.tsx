@@ -34,7 +34,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
     useEffect(() => {
     const fetchRooms = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/rooms/available/${hotel.hotelId}`);
+            const response = await fetch(`https://final-project-api-q0ob.onrender.com/rooms/available/${hotel.hotelId}`);
             if (!response.ok) {
                 throw new Error("Failed to fetch available rooms");
             } else {

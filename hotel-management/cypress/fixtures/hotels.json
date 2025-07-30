@@ -1,0 +1,22 @@
+[
+    {
+        "hotelId": 1,
+        "name": "Seaside Escape",
+        "location": "California",
+        "address": "123 Beach Road",
+        "contactPhone": "123-456-7890",
+        "category": "Luxury",
+        "rating": "4.5",
+        "imageUrl": null
+    },
+    {
+        "hotelId": 2,
+        "name": "Mountain Retreat",
+        "location": "Colorado",
+        "address": "789 Summit Drive",
+        "contactPhone": "987-654-3210",
+        "category": "Resort",
+        "rating": "4.0",
+        "imageUrl": null
+    }
+]

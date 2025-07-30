@@ -196,15 +196,16 @@ const BookingSuccess: React.FC<BookingSuccessProps> = ({ hotel, bookingDetails, 
 
                     {/* Action Buttons */}
                     <div className="flex space-x-4">
-                        <button className="flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
-                            <Mail className="w-5 h-5 mr-2"
+                        <button
+                            className="cursor-pointer flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
                             onClick={() => navigate("/dashboard")}
-                        />
+                        >
+                            <Mail className="w-5 h-5 mr-2" />
                             Pay Now
                         </button>
                         <button
                             onClick={onClose}
-                            className="px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50"
+                            className="cursor-pointer flex items-center justify-center flex-1 px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg hover:bg-blue-50"
                         >
                             Pay Later
                         </button>

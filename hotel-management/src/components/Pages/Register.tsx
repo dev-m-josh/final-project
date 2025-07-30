@@ -97,10 +97,10 @@ const Register = () => {
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 console.error("Registration error:", error.response?.data);
-                alert(error.response?.data?.error || "Registration failed");
+                setErrorMessage(error.response?.data?.error || "Registration failed");
             } else {
                 console.error("Unexpected error:", error);
-                alert("An unexpected error occurred");
+                setErrorMessage("An unexpected error occurred");
             }
         }
     };

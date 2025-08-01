@@ -29,6 +29,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
         checkOutDate: "",
         totalAmount: 0,
         pricePerNight: 0,
+        guests: 1,
     });
 
     useEffect(() => {
@@ -138,7 +139,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                 email: currentUser.email || "guest@example.com",
                 checkInDate: formData.checkInDate,
                 checkOutDate: formData.checkOutDate,
-                guests: 1,
+                guests: formData.guests,
                 roomType: "Standard Room",
                 totalAmount: formData.totalAmount,
             });
@@ -177,6 +178,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
             <div className="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
                 {/* Close Button */}
                 <button
+                    data-testid="close-modal"
                     onClick={onClose}
                     className="cursor-pointer absolute z-10 p-2 transition-colors duration-200 bg-white rounded-full shadow-lg top-4 right-4 hover:bg-gray-100"
                 >
@@ -186,7 +188,9 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                 <div className="grid gap-0 md:grid-cols-2">
                     {/* Hotel Info Side */}
                     <div className="p-8 text-white bg-gradient-to-br from-blue-600 to-indigo-600">
-                        <h2 className="mb-4 text-2xl font-bold">Book Your Stay</h2>
+                        <h2 data-testid={`hotel-title-${hotel.hotelId}`} className="mb-4 text-2xl font-bold">
+                            Book Your Stay
+                        </h2>
 
                         <div className="p-4 mb-6 rounded-lg bg-white/10">
                             <img
@@ -196,14 +200,24 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                 }
                                 alt={hotel.name}
                                 className="object-cover w-full h-32 mb-4 rounded-lg"
+                                data-testid={`hotel-image-${hotel.hotelId}`}
                             />
-                            <h3 className="mb-2 text-xl font-semibold">{hotel.name}</h3>
-                            <p className="mb-2 text-blue-100">{hotel.location}</p>
+                            <h3 data-testid={`hotel-name-${hotel.hotelId}`} className="mb-2 text-xl font-semibold">
+                                {hotel.name}
+                            </h3>
+                            <p data-testid={`hotel-location-${hotel.hotelId}`} className="mb-2 text-blue-100">
+                                {hotel.location}
+                            </p>
                             <div className="flex items-center mb-2">
                                 {renderStars(hotel.rating)}
                                 <span className="ml-2">({hotel.rating})</span>
                             </div>
-                            <span className="px-2 py-1 text-sm rounded bg-white/20">{hotel.category}</span>
+                            <span
+                                className="px-2 py-1 text-sm rounded bg-white/20"
+                                data-testid={`hotel-category-${hotel.hotelId}`}
+                            >
+                                {hotel.category}
+                            </span>
                         </div>
 
                         {/* Booking Summary */}
@@ -250,6 +264,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                             onChange={handleRoomSelect}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             required
+                                            data-testid="room-select"
                                         >
                                             <option value="">Select a room</option>
                                             {rooms.map((room: any) => (
@@ -271,9 +286,22 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                             readOnly
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             min="1"
+                                            data-testid="total-amount-input"
                                         />
                                     </div>
                                 </div>
+                            </div>
+
+                            <div>
+                                <label className="block mb-1 text-sm font-medium text-gray-700">Number of Guests</label>
+                                <input
+                                    type="number"
+                                    name="guests"
+                                    value={formData.guests}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    min="1"
+                                    data-testid="total-guests-input"
+                                />
                             </div>
 
                             <div>
@@ -291,6 +319,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                             min={new Date().toISOString().split("T")[0]}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             required
+                                            data-testid="check-in-date-input"
                                         />
                                     </div>
                                     <div>
@@ -305,6 +334,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                             min={formData.checkInDate || new Date().toISOString().split("T")[0]}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             required
+                                            data-testid="check-out-date-input"
                                         />
                                     </div>
                                 </div>
@@ -312,6 +342,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
 
                             <div className="flex pt-4 space-x-4">
                                 <button
+                                    data-testid="cancel-button"
                                     type="button"
                                     onClick={onClose}
                                     className="cursor-pointer px-6 py-3 font-semibold text-gray-700 transition-colors duration-200 border border-gray-300 rounded-lg hover:bg-gray-50"
@@ -319,6 +350,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ hotel, onClose, onSuccess }) 
                                     Cancel
                                 </button>
                                 <button
+                                    data-testid="complete-booking-button"
                                     type="submit"
                                     disabled={loading}
                                     className="cursor-pointer flex items-center justify-center flex-1 px-6 py-3 font-semibold text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"

@@ -81,9 +81,6 @@ const Register = () => {
             const token = response.data.token;
             dispatch(login({ ...user, token }));
 
-            // console.log(localStorage.getItem("myUser"));
-            // console.log(localStorage.getItem("myToken"));
-
             // Reset form
             setFirstName("");
             setLastName("");
@@ -119,8 +116,9 @@ const Register = () => {
             });
 
             if (response.status === 200) {
-                window.location.reload(); // reflect changes immediately
                 navigate("/");
+                window.location.reload();
+
             } else {
                 setErrorMessage(response.data.message || "Verification failed");
             }

@@ -1,47 +1,98 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { ToastContainer, toast} from "react-toastify"
+import { ToastContainer, toast } from "react-toastify";
+
+type User = {
+    userId: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    contactPhone?: string;
+    address?: string;
+    isAdmin: boolean;
+    isVerified: boolean;
+};
 
 const Profile = () => {
-    const user = JSON.parse(localStorage.getItem("myUser") || "{}");
+    const loggedInUser = JSON.parse(localStorage.getItem("myUser") || "{}");
     const token = localStorage.getItem("myToken");
+
+    const [user, setUser] = useState<User | null>(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [formData, setFormData] = useState({
-        firstName: user.firstname || "",
-        lastName: user.lastname || "",
-        email: user.email || "",
-        phoneNumber: user.contactPhone || "",
-        address: user.address || "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        address: "",
     });
 
     const navigate = useNavigate();
 
-    const fullName = `${user.firstname || ""} ${user.lastname || ""}`;
-    const initials = `${user.firstname?.[0] || ""}${user.lastname?.[0] || ""}`.toUpperCase();
-    const accountType = user.isAdmin ? "Admin" : "Customer";
-    const verified = user.isVerified ? "Yes" : "No";
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(
+                    `https://final-project-api-q0ob.onrender.com/users/details/${loggedInUser.userId}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data");
+                }
+
+                const data: User = await response.json();
+                setUser(data);
+
+                setFormData({
+                    firstName: data.firstname || "",
+                    lastName: data.lastname || "",
+                    email: data.email || "",
+                    phoneNumber: data.contactPhone || "",
+                    address: data.address || "",
+                });
+            } catch (error) {
+                console.error("Error fetching user:", error);
+                alert("An error occurred while fetching your profile. Please try again later.");
+            }
+        };
+
+        if (loggedInUser.userId && token) {
+            fetchUser();
+        }
+    }, [loggedInUser.userId, token]);
 
     useEffect(() => {
-        if (!token || !user.userId) {
+        if (!token || !loggedInUser.userId) {
             setShowLoginModal(true);
         }
-    }, [token, user]);
+    }, [token, loggedInUser.userId]);
+
+    const fullName = `${user?.firstname || ""} ${user?.lastname || ""}`;
+    const initials = `${user?.firstname?.[0] || ""}${user?.lastname?.[0] || ""}`.toUpperCase();
+    const accountType = user?.isAdmin ? "Admin" : "Customer";
+    const verified = user?.isVerified ? "Yes" : "No";
 
     const handleDeleteAccount = async () => {
+        if (!user) return;
+
         try {
-            const response = await fetch(
-                `https://final-project-api-q0ob.onrender.com/users/delete/${user.userId}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            const response = await fetch(`https://final-project-api-q0ob.onrender.com/users/delete/${user.userId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             if (!response.ok) {
                 throw new Error("Failed to delete account");
@@ -69,19 +120,17 @@ const Profile = () => {
 
     const handleUpdateSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!user) return;
 
         try {
-            const response = await fetch(
-                `https://final-project-api-q0ob.onrender.com/users/update/${user.userId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(formData),
-                }
-            );
+            const response = await fetch(`https://final-project-api-q0ob.onrender.com/users/update/${user.userId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(formData),
+            });
 
             if (!response.ok) {
                 throw new Error("Failed to update account");
@@ -97,10 +146,9 @@ const Profile = () => {
                 closeOnClick: false,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined,
                 theme: "colored",
             });
-            window.location.reload(); // reflect changes immediately
+            window.location.reload();
         } catch (error) {
             console.error("Error updating profile:", error);
             toast("Failed to update profile. Please try again.");
@@ -130,18 +178,7 @@ const Profile = () => {
 
     return (
         <div className="relative max-w-4xl p-6 mx-auto mt-24 bg-white shadow-lg rounded-xl">
-            <ToastContainer
-                position="top-right"
-                autoClose={100000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
+            <ToastContainer />
             <button
                 onClick={() => navigate("/")}
                 className="absolute flex items-center gap-2 text-purple-700 transition-colors cursor-pointer top-4 left-4 hover:text-purple-900"
@@ -154,11 +191,11 @@ const Profile = () => {
                     {initials}
                 </div>
                 <h2 className="text-2xl font-bold text-purple-700">{fullName}</h2>
-                <p className="text-gray-500">{user.email}</p>
+                <p className="text-gray-500">{user?.email}</p>
             </div>
             <div className="grid w-full grid-cols-1 gap-6 mb-8 sm:grid-cols-2">
-                <ProfileField label="Phone Number" value={user.contactPhone || "N/A"} />
-                <ProfileField label="Address" value={user.address || "N/A"} />
+                <ProfileField label="Phone Number" value={user?.contactPhone || "N/A"} />
+                <ProfileField label="Address" value={user?.address || "N/A"} />
                 <ProfileField label="Account Type" value={accountType} />
                 <ProfileField label="Verified" value={verified} />
             </div>
@@ -176,7 +213,8 @@ const Profile = () => {
                     Delete Account
                 </button>
             </div>
-            {/* Delete Confirmation Modal */}
+
+            {/* Delete Modal */}
             {showDeleteModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
                     <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
@@ -201,7 +239,8 @@ const Profile = () => {
                     </div>
                 </div>
             )}
-            {/* Edit Profile Modal */}
+
+            {/* Edit Modal */}
             {showEditModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
                     <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">

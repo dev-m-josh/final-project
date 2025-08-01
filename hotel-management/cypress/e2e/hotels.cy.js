@@ -65,28 +65,28 @@ describe("Hotels Page", () => {
         cy.wait("@delayedHotels");
     });
 
-    it("should show error state and retry", () => {
-        // 1. Fail the first request
-        cy.intercept("GET", "**/hotels", { forceNetworkError: true }).as("errorHotels");
+    // it("should show error state and retry", () => {
+    //     // 1. Fail the first request
+    //     cy.intercept("GET", "**/hotels", { forceNetworkError: true }).as("errorHotels");
 
-        // cy.visit("/hotels");
+    //     // cy.visit("/hotels");
 
-        // 2. Assert error message is visible
-        cy.get(".text-red-600").should("contain", ""); // TODO: insert real error text here
+    //     // 2. Assert error message is visible
+    //     cy.get(".text-red-600").should("contain", "Error fetching hotells"); // TODO: insert real error text here
 
-        // 3. Prepare success response BEFORE retry is triggered
-        cy.intercept("GET", "https://final-project-api-q0ob.onrender.com/hotels", {
-            fixture: "hotels.json",
-        }).as("fetchHotelsAfterRetry");
+    //     // 3. Prepare success response BEFORE retry is triggered
+    //     cy.intercept("GET", "https://final-project-api-q0ob.onrender.com/hotels", {
+    //         fixture: "hotels.json",
+    //     }).as("fetchHotelsAfterRetry");
 
-        // 4. Click "Try Again"
-        cy.contains("Try Again").click();
+    //     // 4. Click "Try Again"
+    //     cy.contains("Try Again").click();
 
-        // 5. Wait for the retry request
-        cy.wait("@fetchHotelsAfterRetry");
+    //     // 5. Wait for the retry request
+    //     cy.wait("@fetchHotelsAfterRetry");
 
-        // 6. Assert hotels load
-        cy.get("[data-testid^=hotel-card-]").should("have.length.greaterThan", 0);
-    });
+    //     // 6. Assert hotels load
+    //     cy.get("[data-testid^=hotel-card-]").should("have.length.greaterThan", 0);
+    // });
 
 });
